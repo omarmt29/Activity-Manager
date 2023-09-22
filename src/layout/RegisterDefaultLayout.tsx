@@ -1,27 +1,25 @@
 import { ReactNode, useState } from 'react';
-import Header from '../components/Header';
-import Sidebar from '../components/Sidebar';
+import PublicHeader from '../components/LoginHeader';
 
-interface DefaultLayoutProps {
+interface RegisterDefaultLayoutProps {
   children: ReactNode;
 }
 
-const DefaultLayout = ({ children }: DefaultLayoutProps) => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+const RegisterDefaultLayout = ({ children }: RegisterDefaultLayoutProps) => {
 
   return (
-    <div className="dark:bg-boxdark-2 dark:text-bodydark">
+    <div className="dark:bg-black dark:text-bodydark">
       {/* <!-- ===== Page Wrapper Start ===== --> */}
       <div className="flex h-screen overflow-hidden">
         {/* <!-- ===== Sidebar Start ===== --> */}
-        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        {/* <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /> */}
         {/* <!-- ===== Sidebar End ===== --> */}
 
         {/* <!-- ===== Content Area Start ===== --> */}
         <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
-          {/* <!-- ===== Header Start ===== --> */}
-          <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-          {/* <!-- ===== Header End ===== --> */}
+          {/* <!-- ===== PublicHeader Start ===== --> */}
+          <PublicHeader  />
+          {/* <!-- ===== PublicHeader End ===== --> */}
 
           {/* <!-- ===== Main Content Start ===== --> */}
           <main>
@@ -38,4 +36,4 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   );
 };
 
-export default DefaultLayout;
+export default RegisterDefaultLayout;

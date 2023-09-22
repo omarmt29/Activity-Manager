@@ -8,7 +8,7 @@ import SwitcherFour from '../../components/SwitcherFour';
 import SwitcherOne from '../../components/SwitcherOne';
 import SwitcherThree from '../../components/SwitcherThree';
 import SwitcherTwo from '../../components/SwitcherTwo';
-import DefaultLayout from '../../layout/DefaultLayout';
+import DefaultLayout from '../../layout/AdminLayout';
 
 const FormElements = () => {
   return (

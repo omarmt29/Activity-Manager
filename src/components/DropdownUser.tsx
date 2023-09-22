@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import {supabase} from '../servidor/Client.js'
 import UserOne from '../images/user/user-01.png';
+import { useNavigate } from "react-router-dom";
+import { useDataStore } from '../store/services.js';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const navigate = useNavigate();
+  const { resetData } = useDataStore();
 
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
@@ -34,7 +38,16 @@ const DropdownUser = () => {
     document.addEventListener('keydown', keyHandler);
     return () => document.removeEventListener('keydown', keyHandler);
   });
-
+  const logout = async (e) => {
+    e.preventDefault()
+    const {error} = await supabase.auth.signOut()
+    if(error){
+      console.log(error)
+    }else{
+      resetData();
+      navigate('/auth/signin')
+    }
+  }
   return (
     <div className="relative">
       <Link
@@ -155,7 +168,10 @@ const DropdownUser = () => {
             </Link>
           </li>
         </ul>
-        <button className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+        
+        <button className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+          onClick={e => logout(e)}
+          >
           <svg
             className="fill-current"
             width="22"

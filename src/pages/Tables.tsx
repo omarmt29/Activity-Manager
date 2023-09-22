@@ -2,16 +2,16 @@ import Breadcrumb from '../components/Breadcrumb';
 import TableOne from '../components/TableOne';
 import TableThree from '../components/TableThree';
 import TableTwo from '../components/TableTwo';
-import DefaultLayout from '../layout/DefaultLayout';
+import DefaultLayout from '../layout/AdminLayout';
 
 const Tables = () => {
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Tables" />
+      <Breadcrumb pageName="Actividades" />
 
       <div className="flex flex-col gap-10">
-        <TableOne />
-        <TableTwo />
+        {/* <TableOne /> */}
+        {/* <TableTwo /> */}
         <TableThree />
       </div>
     </DefaultLayout>

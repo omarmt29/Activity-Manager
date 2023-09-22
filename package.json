@@ -14,6 +14,8 @@
     "url": "https://tailadmin.com"
   },
   "dependencies": {
+    "@react-icons/all-files": "^4.1.0",
+    "@supabase/supabase-js": "^2.33.2",
     "apexcharts": "^3.37.0",
     "jsvectormap": "^1.5.1",
     "localforage": "^1.10.0",
@@ -21,8 +23,10 @@
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.11.0",
     "react-router-dom": "^6.8.1",
-    "sort-by": "^0.0.2"
+    "sort-by": "^0.0.2",
+    "zustand": "4.4.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",
