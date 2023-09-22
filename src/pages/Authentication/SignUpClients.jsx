@@ -34,6 +34,7 @@ const SignUpClients = () => {
       const { data, error } = await supabase.auth.admin.createUser({
         email: user.email,
         password: user.password,
+        email_confirm: true,
         user_metadata: {
             name: user.name,
             email: user.email,
