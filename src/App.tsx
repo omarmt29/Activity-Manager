@@ -10,7 +10,7 @@ import Admin from './pages/Dashboard/Admin';
 import FormElements from './pages/Form/FormElements';
 import FormLayout from './pages/Form/FormLayout';
 import Profile from './pages/Profile';
-import Settings from './pages/Settings';
+import Settings from './pages/CreateActivity';
 import Tables from './pages/Tables';
 import TablesClient from './pages/TablesClients';
 import Alerts from './pages/UiElements/Alerts';
