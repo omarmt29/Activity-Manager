@@ -7,8 +7,9 @@ import { useDataStore } from '../../store/services.js';
 
 const SignUpClients = () => {
 
-  const [user, setUser] = useState({ email: '', password: '', id_company: '', re_password:'', company_name: '', name: '', permissions: false, status: true })
+  const [user, setUser] = useState({ email: '', password: '', id_company: '', re_password: '', company_name: '', name: '', permissions: false, status: true })
   const [errorMessage, setErrorMessage] = useState('')
+  const [adminemail, setAdminEmail] = useState('')
   const { data, fetchData } = useDataStore();
 
 
@@ -17,41 +18,41 @@ const SignUpClients = () => {
       await fetchData(); // Llama a la función fetchData cuando el componente se monta
       console.log(data.session.user.user_metadata.company_name)
       console.log(data.session.user.user_metadata.id_company)
-
-      setUser({...user, id_company:data.session.user.user_metadata.id_company, company_name:data.session.user.user_metadata.company_name})
+      console.log(data.session.user.email)
+      setAdminEmail(data.session.user.email)
+      setUser({ ...user, id_company: data.session.user.user_metadata.id_company, company_name: data.session.user.user_metadata.company_name })
     };
     fetchDataAsync()
 
 
   }, [])
-
+ 
   const handlersubmit = async (e) => {
     e.preventDefault()
+ 
     if (user.password == user.re_password) {
-      const { data, error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.admin.createUser({
         email: user.email,
         password: user.password,
-        options: {
-          data: {
+        user_metadata: {
             name: user.name,
             email: user.email,
             company_name: user.company_name,
             permissions: user.permissions,
             id_company: user.id_company,
             status: user.status
-          },
-        },
+          }
       })
 
       if (data) {
         console.log(data)
         setErrorMessage('Registrado correctamente!')
 
+        return { success: true, message: 'Usuario registrado con éxito' };
       } else {
         console.log(error)
-        setErrorMessage(error.message)
       }
-
+      
     } else {
       return alert('password incorrecta')
     }

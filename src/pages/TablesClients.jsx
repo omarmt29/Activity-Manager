@@ -1,17 +1,20 @@
 import Breadcrumb from '../components/Breadcrumb';
-// import TableOne from '../components/TableOne';
-import TableClientsAdmin from '../components/TableClientsAdmin';
-// import TableTwo from '../components/TableTwo';
+import TableClientsAdmin from '../components/TableClientsAdmin.jsx';
 import DefaultLayout from '../layout/AdminLayout';
 
+
+
+
 const TablesClients = () => {
+
+  
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Actividades" />
 
       <div className="flex flex-col gap-10">
         {/* <TableOne /> */}
-        {/* <TableTwo /> */}
+        {/* <TableTwo /> */}  
         <TableClientsAdmin />
       </div>
     </DefaultLayout>
