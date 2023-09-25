@@ -9,6 +9,8 @@ const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const { resetData } = useDataStore();
+  const { data, fetchData } = useDataStore();
+  const [user, setUser] = useState({companyName: ''})
 
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
@@ -47,7 +49,17 @@ const DropdownUser = () => {
       resetData();
       navigate('/auth/signin')
     }
+    
   }
+
+  useEffect(() => {
+    fetchData().then(() => {
+      const companyId = data.session.user.user_metadata.company_name;
+      setUser({...user, companyName: companyId});
+    });
+  }, []);
+
+
   return (
     <div className="relative">
       <Link
@@ -58,9 +70,9 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+            {user.companyName}
           </span>
-          <span className="block text-xs">UX Designer</span>
+          <span className="block text-xs"></span>
         </span>
 
         <span className="h-12 w-12 rounded-full">

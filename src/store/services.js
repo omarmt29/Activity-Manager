@@ -46,3 +46,23 @@ export const useSupabaseSearch = create((set) => ({
     }
   },
 }));
+
+export const ListOfActivities = create((set) => ({
+  searchResults: [],
+  searchSupabase: async (idCompany) => {
+    try {
+      const { data, error } = await supabase
+        .from('activity')
+        .select('*')
+        .eq('id_company', idCompany)
+        .order('created_at', { ascending: false });
+      if (error) {
+        throw error;
+      }
+
+      set({ searchResults: data });
+    } catch (error) {
+      console.error('Error al buscar en Supabase:', error);
+    }
+  },
+}));

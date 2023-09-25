@@ -10,6 +10,7 @@ const Settings = () => {
   const [post, setposts] = useState({ name: '', subtitle: '', description: '', status: true , image_url: '', location: '', id_company: '' })
   const [message, setmessage] = useState('')
   const { data, fetchData } = useDataStore();
+  const [ buttondisable, setbuttondisable ] = useState(true);
 
   useEffect(() => {
     const fetchDataAsync = async () => {
@@ -30,7 +31,7 @@ const Settings = () => {
     const file = e.target.files[0]
     const randomstring = Math.random().toString(36).slice(-8);
 
-    const { data, error } = await supabase
+    const { data } = await supabase
       .storage
       .from('image-activity')
       .upload(`public/${randomstring}`, file)
@@ -48,6 +49,7 @@ const Settings = () => {
 
         if (imageurl) {
           setmessage('foto agregada');
+          setbuttondisable(false)
         }
       }
       InserData()
@@ -238,14 +240,24 @@ const Settings = () => {
 
 
                 <div className="flex justify-center gap-4.5">
-
+                {buttondisable ? 
                   <button
                     className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-70"
                     type="submit"
                     onClick={e => handlerInsertAcivity(e)}
+                    disabled
                   >
                     Publicar
-                  </button>
+                  </button> : 
+                  
+                  <button
+                    className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-70"
+                    type="submit"
+                    onClick={e => handlerInsertAcivity(e)}
+                   
+                  >
+                    Publicar
+                  </button>}
                 </div>
 
               </div>

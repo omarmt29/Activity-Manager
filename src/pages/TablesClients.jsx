@@ -10,7 +10,7 @@ const TablesClients = () => {
   
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Actividades" />
+      <Breadcrumb pageName="Clientes" />
 
       <div className="flex flex-col gap-10">
         {/* <TableOne /> */}

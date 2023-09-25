@@ -125,7 +125,7 @@ const TableClientsAdmin = () => {
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
 
-                    <button id={e.id} status={e.status ? 'Habilitado' : 'Desabilitado'} onClick={e => handlerStatusClient(e.target.id, e.target.getAttribute('status'))} className="hover:text-primary ">
+                    <button id={e.id} status={e.status ? 'Habilitado' : 'Desabilitado'} onClick={e => handlerStatusClient(e.target.id, e.target.getAttribute('status'))} className="hover:text-primary  hover:scale-125 transition-all ease-in">
                       <svg id={e.id} status={e.status ? 'Habilitado' : 'Desabilitado'} onClick={e => handlerStatusClient(e.target.id, e.target.getAttribute('status'))}
                         className="fill-current"
                         width="18"
@@ -146,7 +146,7 @@ const TableClientsAdmin = () => {
                     </button>
                     <button id={e.id}
                       onClick={element => handlerDeleteClient(element.target.id)}
-                      className="hover:text-primary  p-1 z-3"  >
+                      className="hover:text-primary  hover:scale-125 transition-all ease-in p-1 z-3"  >
                       <svg  id={e.id}
                       onClick={element => handlerDeleteClient(element.target.id)}
                       className="fill-current"
@@ -174,7 +174,7 @@ const TableClientsAdmin = () => {
                       />
                     </svg>
                     </button>
-                    <button className="hover:text-primary">
+                    <button className="hover:text-primary  hover:scale-125 transition-all ease-in">
                       <svg
                         className="fill-current"
                         width="18"
