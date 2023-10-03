@@ -3,7 +3,8 @@ import { Route, Routes } from 'react-router-dom';
 
 import SignIn from './pages/Authentication/SignIn';
 import SignUpCompany from './pages/Authentication/SignUpCompany';
-import Calendar from './pages/Calendar';
+import UserTableCalendar from './pages/users/UserTableCalendar';
+import UserTableActivity from './pages/users/UserTableActivity.jsx';
 import Chart from './pages/Chart';
 import Admin from './pages/Dashboard/Admin';
 import FormElements from './pages/Form/FormElements';
@@ -38,8 +39,10 @@ function App() {
   ) : (
     <>
       <Routes>
+
+        {/* RUTAS DE ADMIN*/}
+
         <Route path="/" element={<Admin />} />
-        <Route path="/calendar" element={<Calendar />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/forms/form-elements" element={<FormElements />} />
         <Route path="/forms/form-layout" element={<FormLayout />} />
@@ -52,7 +55,13 @@ function App() {
         <Route path="/auth/signin" element={<SignIn />} />
         <Route path="/auth/registrar-clientes" element={<SignUpClients />} />
         <Route path="/auth/signupcompany" element={<SignUpCompany />} />
-        <Route path="/lobby" element={<Lobby />} />
+
+        {/* RUTAS DE USUARIOS*/}
+        
+        <Route path="/user/lobby" element={<Lobby />} />
+        <Route path="/user/calendar" element={<UserTableCalendar />} />
+        <Route path="/user/activities" element={<UserTableActivity />} />
+
       </Routes>
     </>
   );

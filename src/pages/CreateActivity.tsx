@@ -4,13 +4,12 @@ import { supabase } from '../servidor/Client'
 import { useState, useEffect } from 'react'
 import { useDataStore } from '../store/services';
 
-
 const Settings = () => {
 
-  const [post, setposts] = useState({ name: '', subtitle: '', description: '', status: true , image_url: '', location: '', id_company: '' })
+  const [post, setposts] = useState({ name: '', subtitle: '', description: '', status: true, image_url: '', location: '', id_company: '', date: '', time: '' })
   const [message, setmessage] = useState('')
   const { data, fetchData } = useDataStore();
-  const [ buttondisable, setbuttondisable ] = useState(true);
+  const [buttondisable, setbuttondisable] = useState(true);
 
   useEffect(() => {
     const fetchDataAsync = async () => {
@@ -18,14 +17,14 @@ const Settings = () => {
       console.log(data.session.user.user_metadata.company_name)
       console.log(data.session.user.user_metadata.id_company)
       console.log(data.session.user.email)
-     setposts({...post, id_company: data.session.user.user_metadata.id_company})
+      setposts({ ...post, id_company: data.session.user.user_metadata.id_company })
     };
     fetchDataAsync()
-
+    Intl.DateTimeFormat().resolvedOptions().timeZone = 'UTC';
 
   }, [])
 
-  const handlerInsert = async (e) => {
+  const handlerInsertImage = async (e) => {
 
     // console.log(e.target.files[0])
     const file = e.target.files[0]
@@ -35,7 +34,7 @@ const Settings = () => {
       .storage
       .from('image-activity')
       .upload(`public/${randomstring}`, file)
-      console.log(data)
+    console.log(data)
 
     if (data) {
 
@@ -54,7 +53,7 @@ const Settings = () => {
       }
       InserData()
 
-     
+
     }
   }
 
@@ -63,14 +62,14 @@ const Settings = () => {
     e.preventDefault()
     const { error } = await supabase
       .from('activity')
-      .insert({ name: post.name, subtitle: post.subtitle, description: post.description, status: post.status, image_url: post.image_url, location: post.location, id_company: post.id_company})
+      .insert({ name: post.name, subtitle: post.subtitle, description: post.description, status: post.status, image_url: post.image_url, location: post.location, id_company: post.id_company, date: post.date, time: post.time })
 
-      console.log(error)
+    console.log(error)
 
-      if(!error){
-         alert('Actividad creada')
-         location.reload()
-      }
+    if (!error) {
+      alert('Actividad creada')
+      location.reload()
+    }
   }
 
   return (
@@ -103,7 +102,6 @@ const Settings = () => {
                         name="name"
                         id="name"
                         placeholder="Example activity"
-                        defaultValue="Devid Jhon"
                       />
                     </div>
                   </div>
@@ -122,7 +120,6 @@ const Settings = () => {
                       name="subtitle"
                       id="subtitle"
                       placeholder="Example subtitulo"
-                      defaultValue="Devid Jhon"
                     />
                   </div>
                 </div>
@@ -162,12 +159,45 @@ const Settings = () => {
                     ></textarea>
                   </div>
                 </div>
-
-
+                <div className="mb-5.5">
+                  <label
+                    className="mb-3 block text-sm font-medium text-black dark:text-white"
+                    htmlFor="date"
+                  >
+                    Fecha
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="date"
+                      className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-200 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="Select date"
+                      onChange={e => setposts({ ...post, date: e.target.value })}
+                      
+                    />
+                  </div>
+                </div>
+                <div className="mb-5.5">
+                  <label
+                    className="mb-3 block text-sm font-medium text-black dark:text-white"
+                    htmlFor="date"
+                  >
+                    Hora
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-200 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="ejemplo: 4:00 PM"
+                      onChange={e => setposts({ ...post, time: e.target.value })}
+                      
+                    />
+                  </div>
+                </div>
 
               </div>
             </div>
           </div>
+
           <div className="col-span-5 xl:col-span-2">
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
@@ -177,14 +207,14 @@ const Settings = () => {
               </div>
               <div className="p-7">
 
-                <h2>{message}</h2>
+                {message ? <h2 className='mb-5 bg-green-400/50 border-2 border-green-500  text-white py-2 text-center rounded-2xl'>{message} ✅</h2> : null}
 
                 <div
                   id="FileUpload"
                   className="relative mb-5.5 block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5"
                 >
                   <input
-                    onChange={e => handlerInsert(e)}
+                    onChange={e => handlerInsertImage(e)}
                     type="file"
                     accept="image/*"
                     className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
@@ -231,6 +261,7 @@ const Settings = () => {
               </div>
             </div>
           </div>
+
           <div className="col-span-5 ">
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
 
@@ -240,24 +271,23 @@ const Settings = () => {
 
 
                 <div className="flex justify-center gap-4.5">
-                {buttondisable ? 
-                  <button
-                    className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-70"
-                    type="submit"
-                    onClick={e => handlerInsertAcivity(e)}
-                    disabled
-                  >
-                    Publicar
-                  </button> : 
-                  
-                  <button
-                    className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-70"
-                    type="submit"
-                    onClick={e => handlerInsertAcivity(e)}
-                   
-                  >
-                    Publicar
-                  </button>}
+                  {buttondisable ?
+                    <button
+                      className="flex justify-center rounded bg-primary/20 py-2 px-6 font-medium text-gray hover:bg-opacity-70"
+                      type="submit"
+                      disabled
+                    >
+                      Publicar
+                    </button> :
+
+                    <button
+                      className="flex justify-center rounded bg-primary/70 py-2 px-6 font-medium text-white hover:bg-primary"
+                      type="submit"
+                      onClick={e => handlerInsertAcivity(e)}
+
+                    >
+                      Publicar
+                    </button>}
                 </div>
 
               </div>

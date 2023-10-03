@@ -1,4 +1,4 @@
-import CardFour from '../../components/CardFour';
+import CardFour from '../users/UserAnuncio';
 import CardOne from '../../components/CardOne';
 import CardThree from '../../components/CardThree';
 import CardTwo from '../../components/CardTwo';
@@ -23,7 +23,7 @@ const Admin = () => {
       console.log(data)
          
       if (data.session) {
-        data.session.user.user_metadata.permissions ? navigate("/") : navigate('/lobby') 
+        data.session.user.user_metadata.permissions ? navigate("/") : navigate('/user/lobby') 
       }else{
         navigate("/auth/signin");
       }

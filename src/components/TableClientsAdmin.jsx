@@ -55,6 +55,7 @@ const TableClientsAdmin = () => {
       .from('users')
       .update({ status: false })
       .eq('id', id)
+      console.log(error)
     }else{
       const { error } = await supabase
       .from('users')

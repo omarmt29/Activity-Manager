@@ -1,11 +1,9 @@
 import { Link } from 'react-router-dom';
-import Logo from '../images/logo/logo-icon.svg';
-import DarkModeSwitcher from './DarkModeSwitcher';
-import DropdownMessage from './DropdownMessage';
-import DropdownNotification from './DropdownNotification';
-import DropdownUser from './DropdownUser';
+import DarkModeSwitcher from '../../components/DarkModeSwitcher';
+import DropdownNotification from '../../components/DropdownNotification';
+import DropdownUser from '../../components/DropdownUser';
 
-const Header = (props: {
+const UserHeader = (props: {
   sidebarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
 }) => {
@@ -69,7 +67,7 @@ const Header = (props: {
             {/* <!-- Dark Mode Toggler --> */}
 
             {/* <!-- Notification Menu Area --> */}
-            {/* <DropdownNotification /> */}
+            <DropdownNotification />
             {/* <!-- Notification Menu Area --> */}
 
             {/* <!-- Chat Notification Area --> */}
@@ -86,4 +84,4 @@ const Header = (props: {
   );
 };
 
-export default Header;
+export default UserHeader;

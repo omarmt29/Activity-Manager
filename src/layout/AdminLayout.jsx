@@ -1,13 +1,35 @@
-import { ReactNode, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
+import { useNavigate } from "react-router-dom";
+import { useDataStore } from '../store/services';
+import { useEffect } from 'react';
 
-interface AdminLayoutProps {
-  children: ReactNode;
-}
 
-const AdminLayout = ({ children }: AdminLayoutProps) => {
+const AdminLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { data, fetchData } = useDataStore();
+
+  const [executed, setExecuted] = useState(false);
+  const navigate = useNavigate();
+
+  useLayoutEffect(() => {
+    if (!executed) {
+      const fetchDataAsync = async () => {
+        await fetchData(); // Llama a la función fetchData cuando el componente se monta
+        console.log(data);
+
+        if (data.session.user.user_metadata.permissions == false ) {
+          navigate('/user/lobby');
+        } else {
+        }
+
+        setExecuted(true); // Marca el efecto como ejecutado
+      };
+
+      fetchDataAsync();
+    }
+  }, [executed, navigate]); 
 
   return (
     <div className="dark:bg-gray-900 dark:text-bodydark">

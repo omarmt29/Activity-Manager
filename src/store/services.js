@@ -26,6 +26,7 @@ export const useDataStore = create(persist((set) => ({
 }));
 
 
+
 export const useSupabaseSearch = create((set) => ({
   searchResults: [],
   searchSupabase: async (idCompany) => {
@@ -47,6 +48,27 @@ export const useSupabaseSearch = create((set) => ({
   },
 }));
 
+export const managercompany = create((set) => ({
+  companyresults: [],
+  handlercompany: async (idCompany) => {
+    try {
+      const { data, error } = await supabase
+        .from('company')
+        .select('*')
+        .eq('id_company', idCompany)
+      if (error) {
+        throw error;
+      }
+
+      set({ companyresults: data });
+    } catch (error) {
+      console.error('Error al buscar en Supabase:', error);
+    }
+  },
+}));
+
+
+
 export const ListOfActivities = create((set) => ({
   searchResults: [],
   searchSupabase: async (idCompany) => {
@@ -61,6 +83,47 @@ export const ListOfActivities = create((set) => ({
       }
 
       set({ searchResults: data });
+    } catch (error) {
+      console.error('Error al buscar en Supabase:', error);
+    }
+  },
+}));
+
+export const UserListOfActivities = create((set) => ({
+  searchResults: [],
+  searchSupabase: async (idCompany) => {
+    try {
+      const { data, error } = await supabase
+        .from('activity')
+        .select('*')
+        .eq('id_company', idCompany)
+        .eq('status', true)
+        .order('created_at', { ascending: false });
+      if (error) {
+        throw error;
+      }
+
+      set({ searchResults: data });
+    } catch (error) {
+      console.error('Error al buscar en Supabase:', error);
+    }
+  },
+}));
+
+export const ActivityRegistrationByUser = create((set) => ({
+  ActivityResult: [],
+  handlerActivity: async (company, user) => {
+    try {
+      const { data, error } = await supabase
+        .from('activity_registrations')
+        .select('*')
+        .eq('id_company', company)
+        .eq('id_user', user)
+      if (error) {
+        throw error;
+      }
+
+      set({ ActivityResult: data });
     } catch (error) {
       console.error('Error al buscar en Supabase:', error);
     }

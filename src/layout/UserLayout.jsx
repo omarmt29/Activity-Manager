@@ -1,13 +1,13 @@
 import { ReactNode, useState } from 'react';
-import Header from '../components/Header';
-import UserSidebar from '../components/UserSidebar';
+import UserHeader from '../pages/users/UserHeader';
+import UserSidebar from '../pages/users/UserSidebar';
 
 
 const UserLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="dark:bg-black dark:text-bodydark">
+    <div className="dark:bg-gray-900 dark:text-bodydark">
       {/* <!-- ===== Page Wrapper Start ===== --> */}
       <div className="flex h-screen overflow-hidden">
         {/* <!-- ===== Sidebar Start ===== --> */}
@@ -17,8 +17,8 @@ const UserLayout = ({ children }) => {
         {/* <!-- ===== Content Area Start ===== --> */}
         <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
           {/* <!-- ===== Header Start ===== --> */}
-          <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-          {/* <!-- ===== Header End ===== --> */}
+          <UserHeader sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+          {/* <!-- ===== UserHeader End ===== --> */}
 
           {/* <!-- ===== Main Content Start ===== --> */}
           <main>

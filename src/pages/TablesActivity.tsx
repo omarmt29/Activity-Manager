@@ -1,6 +1,6 @@
 import Breadcrumb from '../components/Breadcrumb.tsx';
 import TableActivityAdmin from '../components/TableActivityAdmin.jsx';
-import DefaultLayout from '../layout/AdminLayout.tsx';
+import DefaultLayout from '../layout/AdminLayout.jsx';
 
 
 

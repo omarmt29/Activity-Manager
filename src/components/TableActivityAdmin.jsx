@@ -6,6 +6,7 @@ import { supabase } from '../servidor/Client.js'
 import { format } from 'date-fns';
 import { FaRegEyeSlash, FaRegSun } from "react-icons/fa";
 import { Button, Modal } from 'flowbite-react';
+import { DateTime } from 'luxon';
 
 const TableClientsAdmin = () => {
   const { data, fetchData } = useDataStore();
@@ -13,7 +14,9 @@ const TableClientsAdmin = () => {
   const [idCompany, setIdCompany] = useState('')
   const [users, setUsers] = useState([])
   const [openModal, setOpenModal] = useState('');
-
+  const [message, setmessage] = useState('');
+  const [buttondisable, setbuttondisable] = useState(false);
+  const [activity, setactivity] = useState({ name: '', subtitle: '', description: '', image_url: '', location: '', date: '', id: 0 });
 
   useEffect(() => {
     fetchData().then(() => {
@@ -40,7 +43,6 @@ const TableClientsAdmin = () => {
     setUsers(newData);
   };
 
-
   const handlerDeleteClient = async (id) => {
     const { error } = await supabase
       .from('activity')
@@ -66,6 +68,73 @@ const TableClientsAdmin = () => {
 
   }
 
+  const handlerInsertImage = async (e) => {
+
+    // console.log(e.target.files[0])
+    const file = e.target.files[0]
+    const randomstring = Math.random().toString(36).slice(-8);
+
+    const { data } = await supabase
+      .storage
+      .from('image-activity')
+      .upload(`public/${randomstring}`, file)
+    console.log(data)
+
+    if (data) {
+
+      const InserData = async () => {
+
+        const imageurl = await supabase
+          .storage
+          .from('image-activity')
+          .getPublicUrl('public/' + randomstring)
+        setactivity({ ...activity, image_url: imageurl.data.publicUrl })
+
+        if (imageurl) {
+          setbuttondisable(false)
+        }
+      }
+      InserData()
+
+
+    }
+  }
+
+  const handlerUpdateActivity = async (e, id) => {
+    e.preventDefault();
+    try {
+      // Recupera el registro actual
+      try {
+        const { data } = await supabase
+          .from('activity')
+          .select()
+          .eq('id', id);
+
+        if (data) {
+          setactivity({ ...activity, date: data[0].date, name: data[0].name, subtitle: data[0].subtitle, description: data[0].description, image_url: data[0].image_url, location: data[0].location})
+        }
+      } catch (error) {
+        console.log(error)
+      }
+
+
+      // Al menos un valor es diferente, realiza la actualización
+      const { data, error } = await supabase
+        .from('activity')
+        .update(activity)
+        .eq('id', id)
+        .select();
+
+      if (error) {
+        console.log(error);
+      }
+      setOpenModal(undefined);
+      console.log(data);
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 
 
@@ -77,31 +146,34 @@ const TableClientsAdmin = () => {
           <thead>
 
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
-              <th className="min-w-[70px] py-4 px-4 font-semibold text-black dark:text-white xl:pl-11">
+              <th className="min-w-[160px] py-4 px-4 font-semibold text-black dark:text-white xl:pl-11">
                 Imagen
               </th>
-
-              <th className="min-w-[120px] py-4 px-4 font-semibold text-black dark:text-white xl:pl-11">
+              <th className="min-w-[200px] py-4 px-4 font-semibold text-black dark:text-white xl:pl-11">
                 Nombre
               </th>
-              <th className="min-w-[190px] py-4 px-4 font-semibold text-black dark:text-white xl:pl-11">
+              <th className="min-w-[200px] py-4 px-4 font-semibold text-black dark:text-white xl:pl-11">
                 Subtitulo
               </th>
-              <th className="min-w-[170px] py-4 px-4 font-semibold text-black dark:text-white">
+              <th className="min-w-[200px] py-4 px-4 font-semibold text-black dark:text-white">
                 Estado
               </th>
               <th className="min-w-[200px] py-4 px-4 font-semibold text-black dark:text-white">
                 Fecha
+              </th>
+              <th className="min-w-[200px] py-4 px-4 font-semibold text-black dark:text-white">
+                Hora
               </th>
               <th className="py-4 px-4 font-semibold text-black dark:text-white">
                 Acciones
               </th>
             </tr>
           </thead>
+
           <tbody>
             {users.map(e => <>
+              <tr key={e.index}>
 
-              <tr key={e.name}>
                 <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                   <img className="w-12 h-12 object-cover rounded-full" src={e.image_url} alt="" />
                 </td>
@@ -111,6 +183,7 @@ const TableClientsAdmin = () => {
                     {e.name}
                   </h5>
                 </td>
+
                 <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                   <h5 className="font-medium text-sm text-black dark:text-white">
                     {e.subtitle}
@@ -120,15 +193,20 @@ const TableClientsAdmin = () => {
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   {e.status ? <p className="inline-flex text-sm rounded-full bg-success bg-opacity-10 py-1 px-3 font-medium text-success">Habilitado</p> : <p className="inline-flex text-sm rounded-full bg-danger bg-opacity-10 py-1 px-3 font-medium text-danger">Desactivado</p>}
                 </td>
+
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                  <p className="text-black text-sm dark:text-white">{format(new Date(e.created_at), 'yyyy-MM-dd -- HH:mm')}</p>
+                  <p className="text-black text-sm dark:text-white">{DateTime.fromISO(e.date, { zone: 'utc' }).toFormat('yyyy-MM-dd')}</p>
                 </td>
+                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <p className="text-black text-sm dark:text-white">{e.time}</p>
+                </td>
+
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
 
-                    <button id={e.id} status={e.status ? 'Habilitado' : 'Desabilitado'} onClick={e => handlerStatusClient(e.target.id, e.target.getAttribute('status'))} className="hover:text-primary  hover:scale-125 transition-all ease-in">
+                    <button id={e.id} status={e.status ? 'Habilitado' : 'Desabilitado'} onClick={e => handlerStatusClient(e.target.getAttribute('id'), e.target.getAttribute('status'))} className="hover:text-primary  hover:scale-125 transition-all ease-in">
 
-                      {e.status ? <svg id={e.id} status={e.status ? 'Habilitado' : 'Desabilitado'} onClick={e => handlerStatusClient(e.target.id, e.target.getAttribute('status'))}
+                      {e.status ? <svg id={e.id} status={e.status ? 'Habilitado' : 'Desabilitado'} onClick={e => handlerStatusClient(e.target.getAttribute('id'), e.target.getAttribute('status'))}
                         className="fill-current"
                         width="18"
                         height="18"
@@ -145,16 +223,16 @@ const TableClientsAdmin = () => {
                           fill=""
                         />
                       </svg> :
-                        <FaRegEyeSlash id={e.id} status={e.status ? 'Habilitado' : 'Desabilitado'} onClick={e => handlerStatusClient(e.target.id, e.target.getAttribute('status'))} />
+                        <FaRegEyeSlash id={e.id} status={e.status ? 'Habilitado' : 'Desabilitado'} onClick={e => handlerStatusClient(e.target.getAttribute('status'), e.target.getAttribute('status'))} />
                       }
 
 
                     </button>
                     <button id={e.id}
-                      onClick={element => handlerDeleteClient(element.target.id)}
+                      onClick={element => handlerDeleteClient(element.target.id, element.target.getAttribute('id'))}
                       className="hover:text-primary  p-1 z-3 hover:scale-125 transition-all ease-in"  >
                       <svg id={e.id}
-                        onClick={element => handlerDeleteClient(element.target.id)}
+                        onClick={element => handlerDeleteClient(element.target.id, element.target.getAttribute('id'))}
                         className="fill-current"
                         width="18"
                         height="18"
@@ -181,16 +259,16 @@ const TableClientsAdmin = () => {
                       </svg>
                     </button>
 
-                    <button   id={e.name} onClick={() => setOpenModal(e.id)} >
-                        <FaRegSun className='hover:text-primary  hover:scale-125 transition-all ease-in'/>
+                    <button id={e.name} onClick={() => setOpenModal(e.id)} >
+                      <FaRegSun className='hover:text-primary  hover:scale-125 transition-all ease-in' />
                     </button>
                   </div>
                 </td>
 
-                <Modal className='mt-40 lg:mt-0' show={openModal === e.id} onClose={() => setOpenModal(undefined)}>
-                  <Modal.Header>{e.name}</Modal.Header>
-                  <Modal.Body className='max-h-125'>
-                    <div className="grid grid-cols-5 gap-8">
+                <Modal className='mt-40 lg:mt-0 ' show={openModal === e.id} onClose={() => setOpenModal(undefined)}>
+                  <Modal.Header >{e.name}</Modal.Header>
+                  <Modal.Body className='max-h-125 '>
+                    <div className="grid grid-cols-5  gap-8">
                       <div className="col-span-5 ">
                         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                           <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
@@ -207,6 +285,7 @@ const TableClientsAdmin = () => {
                               className="relative mb-5.5 block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5"
                             >
                               <input
+                                onChange={e => handlerInsertImage(e)}
                                 type="file"
                                 accept="image/*"
                                 className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
@@ -250,6 +329,7 @@ const TableClientsAdmin = () => {
                                     type="text"
                                     name="name"
                                     id="name"
+                                    onChange={e => setactivity({ ...activity, name: e.target.value })}
                                     placeholder="Example activity"
                                     defaultValue={e.name}
                                   />
@@ -270,6 +350,7 @@ const TableClientsAdmin = () => {
                                   id="subtitle"
                                   placeholder="Example subtitulo"
                                   defaultValue={e.subtitle}
+                                  onChange={e => setactivity({ ...activity, subtitle: e.target.value })}
 
                                 />
                               </div>
@@ -287,6 +368,7 @@ const TableClientsAdmin = () => {
                                 name="subtitle"
                                 id="subtitle"
                                 defaultValue={e.location}
+                                onChange={e => setactivity({ ...activity, location: e.target.value })}
 
                               />
                             </div>
@@ -305,9 +387,49 @@ const TableClientsAdmin = () => {
                                   id="bio"
                                   rows={6}
                                   defaultValue={e.description}
+                                  onChange={e => setactivity({ ...activity, description: e.target.value })}
 
 
                                 ></textarea>
+                              </div>
+                            </div>
+                            <div className="mb-5.5">
+                              <label
+                                className="mb-3 block text-sm font-medium text-black dark:text-white"
+                                htmlFor="Username"
+                              >
+                                Fecha
+                              </label>
+                              <div className="relative">
+
+                                <input
+                                  type="date"
+                                  className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-200 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                  placeholder="Select date"
+                                  onChange={e => setactivity({ ...activity, date: e.target.value })}
+                                  defaultValue={e.date}
+
+                                />
+                              </div>
+                            </div>
+
+                            <div className="mb-5.5">
+                              <label
+                                className="mb-3 block text-sm font-medium text-black dark:text-white"
+                                htmlFor="Username"
+                              >
+                                Hora
+                              </label>
+                              <div className="relative">
+
+                                <input
+                                  type="text"
+                                  className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-200 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                  placeholder="Select date"
+                                  onChange={e => setactivity({ ...activity, time: e.target.value })}
+                                  defaultValue={e.time}
+
+                                />
                               </div>
                             </div>
 
@@ -319,17 +441,16 @@ const TableClientsAdmin = () => {
                     </div>
                   </Modal.Body>
                   <Modal.Footer className='d-flex justify-center'>
-                    <span className='bg-transparent hover:bg-primary dark:hover:bg-primary hover:cursor-pointer p-3 text-black hover:text-white rounded-xl dark:text-white border border-primary transition-all ease-in'>Editar</span>
-
+                    <span id={e.id} onClick={e => handlerUpdateActivity(e, e.target.id, e.target.getAttribute('id'))} className='bg-transparent hover:bg-primary dark:hover:bg-primary hover:cursor-pointer p-3 text-black hover:text-white rounded-xl dark:text-white border border-primary transition-all ease-in'>Editar</span>
                   </Modal.Footer>
                 </Modal>
+
               </tr>
 
             </>
             )}
-
-
           </tbody>
+
         </table>
       </div>
     </div>
