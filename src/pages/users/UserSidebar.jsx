@@ -74,7 +74,7 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }) => {
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
         <NavLink to="/user/lobby">
           {/* <img src={Logo} alt="Logo" /> */}
-          <h2 className='font-extrabold text-3xl pl-3'>Bienvenido</h2>
+          <h2 className='font-extrabold text-3xl pl-3'>Turistapp</h2>
         </NavLink>
 
         <button

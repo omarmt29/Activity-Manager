@@ -100,9 +100,9 @@ const UserCalendar = () => {
 
   return (
 
-    <div className="w-full max-w-full gap-12 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-gray-900 grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+    <div className="w-full max-w-full gap-12 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-gray-900 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2">
 
-      {activityId.map(a => <div className='hover:scale-110 transition-all ease-in' key={a.index}>
+      {activityId.map(a => <div className='hover:scale-110 transition-all ease-in w-full' key={a.index}>
 
         <div className="w-full flex   bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-700 dark:border-gray-700 ">
           <img className=" rounded-lg w-31 h-31 object-cover" src={a[0].image_url} alt="product image" />

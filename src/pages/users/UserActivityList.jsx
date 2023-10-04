@@ -16,7 +16,7 @@ const UserTableActivity = () => {
   const [record_activities, setrecordActivities] = useState(0)
   const [Activity, setActivity] = useState([])
   const [openModal, setOpenModal] = useState('');
-  const [message, setmessage] = useState('');
+  const [message, setmessage] = useState({status: false, id: '', fail: false});
   const [buttondisable, setbuttondisable] = useState(false);
   // const [activity, setactivity] = useState({ name: '', subtitle: '', description: '', image_url: '', location: '', date: '', id: 0 });
 
@@ -102,9 +102,14 @@ const UserTableActivity = () => {
         const { error } = await supabase
           .from('activity_registrations')
           .insert({ id_activity: id, id_user: userid, id_company: idCompany });
-
+        setmessage({...message, status: true, id: id,  fail: null})
       } else {
-        alert('No es posible registrarse')
+        setmessage({...message, status: false, id: id, fail: true})
+        setInterval(() => {
+          setmessage({...message, status: null, id: id, fail: null})
+
+        }, 4000)
+
       }
 
     } catch (error) {
@@ -123,7 +128,7 @@ const UserTableActivity = () => {
           <div className="grid grid-cols-1 sm:grid-cols-1 xl:grid-cols-2 gap-5">
             {Activity.map(e =>
 
-              <div key={e.index} className=" flex flex-col items-start relative bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-full hover:bg-gray-100 hover:cursor-pointer transition-all ease-in dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+              <div key={e.index} className="h-full flex flex-col items-start relative bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-full hover:bg-gray-100 hover:cursor-pointer transition-all ease-in dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
                 <div className='w-full'>
                   <img className="object-cover rounded-lg w-full  rounded-t-lg h-95  md:rounded-none md:rounded-l-lg " src={e.image_url ? e.image_url : 'https://placehold.co/600x400'} alt="" />
                 </div>
@@ -144,6 +149,13 @@ const UserTableActivity = () => {
                   </div>
 
                 </div>
+                {message.status == true && message.id == e.id ? <div className='absolute transition-all ease-in z-0 bottom-2/4 flex items-center justify-center w-full fade-in'>
+                  <p className='text-8xl'>✅</p>
+                </div> : null}
+
+                {message.fail == true && message.id == e.id && message.status == false ? <div className='absolute transition-all ease-in z-0 bottom-2/4 flex items-center justify-center w-full fade-in'>
+                  <p className='text-8xl'>❌</p>
+                </div> : null}
               </div>
 
             )}
