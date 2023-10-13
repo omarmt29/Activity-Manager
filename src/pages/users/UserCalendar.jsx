@@ -90,7 +90,6 @@ const UserCalendar = () => {
       .eq('id_activity', id);
   
     if (data && data.length > 0) {
-      console.log(data[0].registrations)
       return  data.length;
     } else {
       return 0;
@@ -104,7 +103,7 @@ const UserCalendar = () => {
     
     const { error } = await supabase
       .from('activity')
-      .update({ registrations: updatedRegistrations == -1 ? 0 :  updatedRegistrations})
+      .update({ registrations: updatedRegistrations})
       .eq('id', id);
   
     if (error) {
