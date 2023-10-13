@@ -83,24 +83,63 @@ const UserCalendar = () => {
     }
   }
 
+  const registrationsResult = async (id) => {
+    const { data, error } = await supabase
+      .from('activity_registrations')
+      .select('*')
+      .eq('id', id);
+  
+    if (error) {
+      console.error("Error al consultar registros:", error);
+      return null;
+    }
+  
+    if (data && data.length > 0) {
+      return data[0].registrations;
+    } else {
+      return 0;
+    }
+  }
+  
+  const UpdateRegistrationOfActivity = async (id, currentRegistrations) => {
+    const updatedRegistrations = 1 - currentRegistrations ;
+    
+    const { error } = await supabase
+      .from('activity')
+      .update({ registrations: updatedRegistrations })
+      .eq('id', id);
+  
+    if (error) {
+      console.error("Error al actualizar registros:", error);
+    }
+    return updatedRegistrations;
+  }
+  
   const handlerDeleteRegistration = async (e, id) => {
-    e.preventDefault()
+    e.preventDefault();
+  
     const { error } = await supabase
       .from('activity_registrations')
       .delete()
       .eq('id_activity', id)
+      .eq('id_user', userid);
+  
     if (error) {
       console.error("Error al eliminar:", error);
     } else {
       // Actualiza el estado local para reflejar la eliminación
       setDeletedItemId(id);
     }
+  
+    const currentRegistrations = await registrationsResult(id);
+    const updatedRegistrations = await UpdateRegistrationOfActivity(id, currentRegistrations);
+    return updatedRegistrations;
   }
-
+  
 
   return (
 
-    <div className="w-full max-w-full gap-12 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-gray-900 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2">
+    <div className="w-full max-w-full gap-12 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-gray-900 grid md:grid-cols-1 lg:grid-cols-[450px] xl:grid-cols-2">
 
       {activityId.map(a => <div className='hover:scale-110 transition-all ease-in w-full' key={a.index}>
 

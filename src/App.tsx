@@ -1,22 +1,23 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import SignIn from './pages/Authentication/SignIn';
-import SignUpCompany from './pages/Authentication/SignUpCompany';
-import UserTableCalendar from './pages/users/UserTableCalendar';
+import SignIn from './pages/Authentication/SignIn.js';
+import SignUpCompany from './pages/Authentication/SignUpCompany.js';
+import UserTableCalendar from './pages/users/UserTableCalendar.jsx';
 import UserTableActivity from './pages/users/UserTableActivity.jsx';
-import Chart from './pages/Chart';
-import Admin from './pages/Dashboard/Admin';
-import FormElements from './pages/Form/FormElements';
-import FormLayout from './pages/Form/FormLayout';
-import Profile from './pages/Profile';
-import CreateActivity from './pages/CreateActivity';
-import TablesActivity from './pages/TablesActivity';
-import TablesClient from './pages/TablesClients';
-import Alerts from './pages/UiElements/Alerts';
-import Buttons from './pages/UiElements/Buttons';
-import Lobby  from './pages/users/Lobby';
-import SignUpClients from './pages/Authentication/SignUpClients';
+import Chart from './pages/Chart.js';
+import Admin from './pages/Dashboard/Admin.jsx';
+import FormElements from './pages/Form/FormElements.js';
+import FormLayout from './pages/Form/FormLayout.js';
+import Profile from './pages/Profile.js';
+import CreateActivity from './pages/CreateActivity.js';
+import TablesActivity from './pages/TablesActivity.js';
+import TablesClient from './pages/TablesClients.jsx';
+import CreateNew from './pages/CreateNew.jsx';
+import Alerts from './pages/UiElements/Alerts.js';
+import Buttons from './pages/UiElements/Buttons.js';
+import Lobby  from './pages/users/Lobby.js';
+import SignUpClients from './pages/Authentication/SignUpClients.jsx';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -49,6 +50,7 @@ function App() {
         <Route path="/actividades" element={<TablesActivity />} />
         <Route path="/opciones-clientes" element={<TablesClient />} />
         <Route path="/crear-actividad" element={<CreateActivity />} />
+        <Route path="/publicar-anuncios" element={<CreateNew />} />
         <Route path="/chart" element={<Chart />} /> 
         <Route path="/ui/alerts" element={<Alerts />} />
         <Route path="/ui/buttons" element={<Buttons />} />

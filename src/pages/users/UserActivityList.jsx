@@ -12,11 +12,9 @@ const UserTableActivity = () => {
   const { searchSupabase, searchResults } = UserListOfActivities();
   const [idCompany, setIdCompany] = useState('')
   const [userid, setUserId] = useState('')
-  const [limit, setLimit] = useState(0)
-  const [record_activities, setrecordActivities] = useState(0)
   const [Activity, setActivity] = useState([])
   const [openModal, setOpenModal] = useState('');
-  const [message, setmessage] = useState({status: false, id: '', fail: false});
+  const [message, setmessage] = useState({ status: false, id: '', fail: false });
   const [buttondisable, setbuttondisable] = useState(false);
   // const [activity, setactivity] = useState({ name: '', subtitle: '', description: '', image_url: '', location: '', date: '', id: 0 });
 
@@ -58,7 +56,7 @@ const UserTableActivity = () => {
       .eq('id_company', idCompany)
       .eq('id', id)
       .eq('status', true)
-    setLimit(data[0].limit)
+    return data[0].limit
     console.log(limit)
   }
 
@@ -68,19 +66,26 @@ const UserTableActivity = () => {
       .from('activity_registrations')
       .select()
       .eq('id_activity', id)
-    setrecordActivities(data.length)
-    console.log(record_activities)
+    return data.length
   }
 
 
 
   const handlerRegistrations = async (e, id) => {
+
     e.preventDefault();
 
+    const limits = await handlerSelectLimit(e, id);
+    const registrations = await handlerRegistrationsList(e, id);
+
     // Ejecutar las dos funciones de forma secuencial usando async/await
+
     try {
-      const limitResponse = await handlerSelectLimit(e, id);
-      const registrationsListResponse = await handlerRegistrationsList(e, id);
+
+      console.log(limits)
+      console.log(registrations)
+
+      // Verifica cuantas inscripciones tiene el cliente de esa actividad
 
       const { data } = await supabase
         .from('activity_registrations')
@@ -88,25 +93,26 @@ const UserTableActivity = () => {
         .eq('id_user', userid)
         .eq('id_activity', id);
 
-      console.log(data.length)
-      // Verificar las respuestas de las funciones
-      if (limitResponse) {
-        console.log(limitResponse);
-      }
+      // Verifica cuantas inscripciones tiene el cliente de esa actividad
 
-      if (registrationsListResponse) {
-        console.log(registrationsListResponse);
-      }
 
-      if (record_activities <= limit && data.length < 1) {
+      if (registrations < limits && data.length < 1) {
         const { error } = await supabase
           .from('activity_registrations')
           .insert({ id_activity: id, id_user: userid, id_company: idCompany });
-        setmessage({...message, status: true, id: id,  fail: null})
+
+        const { data } = await supabase
+          .from("activity")
+          .update({ registrations: registrations + 1 })
+          .eq("id", id)
+          .single();
+
+
+        setmessage({ ...message, status: true, id: id, fail: null })
       } else {
-        setmessage({...message, status: false, id: id, fail: true})
+        setmessage({ ...message, status: false, id: id, fail: true })
         setInterval(() => {
-          setmessage({...message, status: null, id: id, fail: null})
+          setmessage({ ...message, status: null, id: id, fail: null })
 
         }, 4000)
 

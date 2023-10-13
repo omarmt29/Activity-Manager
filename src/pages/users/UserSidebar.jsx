@@ -4,7 +4,7 @@ import SidebarLinkGroup from './SidebarLinkGroup.tsx';
 import { FaHouse, FaList, FaCalendarCheck, FaDoorOpen } from "react-icons/fa6";
 import { IoLogOutSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import {supabase} from '../../servidor/Client.js'
+import { supabase } from '../../servidor/Client.js'
 
 const UserSidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
@@ -55,7 +55,7 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }) => {
       document.querySelector('body')?.classList.remove('sidebar-expanded');
     }
   }, [sidebarExpanded]);
-    const logout = async (e) => {
+  const logout = async (e) => {
     e.preventDefault()
     const { error } = await supabase.auth.signOut()
     if (error) {
@@ -64,6 +64,7 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }) => {
       navigate('/auth/signin')
     }
   }
+  
   return (
     <aside
       ref={sidebar}
@@ -106,7 +107,7 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }) => {
         <nav className="mt-5 py-4 px-4 lg:mt-9 lg:px-6">
           {/* <!-- Menu Group --> */}
           <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
+            <h3 className="mb-4  text-sm font-semibold text-bodydark2">
               MENU
             </h3>
 
@@ -170,7 +171,10 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
         </nav>
         {/* <!-- Sidebar Menu --> */}
+
       </div>
+      <p className='mb-4  pl-5 text-bodydark2 font-semibold'>Anuncios</p>
+      <img className='w-full px-5 h-115 object-cover' src="https://placehold.co/600x400" alt="" />
     </aside>
   );
 };
