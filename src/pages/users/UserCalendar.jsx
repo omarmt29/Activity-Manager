@@ -86,33 +86,30 @@ const UserCalendar = () => {
   const registrationsResult = async (id) => {
     const { data, error } = await supabase
       .from('activity_registrations')
-      .select('*')
-      .eq('id', id);
-  
-    if (error) {
-      console.error("Error al consultar registros:", error);
-      return null;
-    }
+      .select('id')
+      .eq('id_activity', id);
   
     if (data && data.length > 0) {
-      return data[0].registrations;
+      console.log(data[0].registrations)
+      return  data.length;
     } else {
       return 0;
     }
   }
   
   const UpdateRegistrationOfActivity = async (id, currentRegistrations) => {
-    const updatedRegistrations = 1 - currentRegistrations ;
+    console.log(currentRegistrations)
+    const updatedRegistrations = currentRegistrations ;
+
     
     const { error } = await supabase
       .from('activity')
-      .update({ registrations: updatedRegistrations })
+      .update({ registrations: updatedRegistrations == -1 ? 0 :  updatedRegistrations})
       .eq('id', id);
   
     if (error) {
       console.error("Error al actualizar registros:", error);
     }
-    return updatedRegistrations;
   }
   
   const handlerDeleteRegistration = async (e, id) => {
@@ -130,10 +127,9 @@ const UserCalendar = () => {
       // Actualiza el estado local para reflejar la eliminación
       setDeletedItemId(id);
     }
-  
     const currentRegistrations = await registrationsResult(id);
-    const updatedRegistrations = await UpdateRegistrationOfActivity(id, currentRegistrations);
-    return updatedRegistrations;
+    await UpdateRegistrationOfActivity(id, currentRegistrations);
+
   }
   
 

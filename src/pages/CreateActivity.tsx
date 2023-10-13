@@ -6,7 +6,7 @@ import { useDataStore } from '../store/services';
 
 const Settings = () => {
 
-  const [post, setposts] = useState({ name: '', subtitle: '', description: '', status: true, image_url: '', location: '', id_company: '', date: '', time: '' })
+  const [post, setposts] = useState({ name: '', subtitle: '', description: '', status: true, image_url: '', location: '', id_company: '', date: '', time: '', limit: 0 })
   const [message, setmessage] = useState('')
   const { data, fetchData } = useDataStore();
   const [buttondisable, setbuttondisable] = useState(true);
@@ -62,7 +62,7 @@ const Settings = () => {
     e.preventDefault()
     const { error } = await supabase
       .from('activity')
-      .insert({ name: post.name, subtitle: post.subtitle, description: post.description, status: post.status, image_url: post.image_url, location: post.location, id_company: post.id_company, date: post.date, time: post.time })
+      .insert({ name: post.name, subtitle: post.subtitle, description: post.description, status: post.status, image_url: post.image_url, location: post.location, id_company: post.id_company, date: post.date, time: post.time, limit: post.limit })
 
     console.log(error)
 
@@ -189,6 +189,23 @@ const Settings = () => {
                       className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-200 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       placeholder="ejemplo: 4:00 PM"
                       onChange={e => setposts({ ...post, time: e.target.value })}
+                      
+                    />
+                  </div>
+                </div>
+                <div className="mb-5.5">
+                  <label
+                    className="mb-3 block text-sm font-medium text-black dark:text-white"
+                    htmlFor="number"
+                  >
+                    Limite de participantes
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="number"
+                      className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-200 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="ejemplo: 4:00 PM"
+                      onChange={e => setposts({ ...post, limit: e.target.value })}
                       
                     />
                   </div>

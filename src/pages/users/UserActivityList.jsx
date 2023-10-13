@@ -150,7 +150,11 @@ const UserTableActivity = () => {
 
                   <div>
                     <p className=" mt-4 font-normal text-white dark:text-white overflow-auto h-25 mb-2">{e.description}</p>
-                    <button className='bg-primary/10 transition-all ease-in hover:bg-primary active:bg-primary w-full text-white py-2 px-6 rounded-2xl' id={e.id} onClick={e => handlerRegistrations(e, e.target.getAttribute('id'))}>Registrarme</button>
+                    <div className='flex items-end justify-between'>
+                    <button className='bg-primary/60 transition-all ease-in hover:bg-primary active:bg-primary w-1/4  text-white py-2 px-6 rounded-2xl' id={e.id} onClick={e => handlerRegistrations(e, e.target.getAttribute('id'))}>Registrarme</button>
+                      {e.registrations === e.limit ?  <p className='m-0 p-0 text-meta-7 text-lg font-semibold'>Cupos: {e.registrations} / {e.limit}</p> :  <p className='m-0 p-0 text-green-300 text-lg font-semibold'>Cupos: {e.registrations} / {e.limit}</p>} 
+                     
+                    </div>
 
                   </div>
 
