@@ -44,16 +44,16 @@ function App() {
         {/* RUTAS DE ADMIN*/}
 
         <Route path="/" element={<Admin />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/forms/form-elements" element={<FormElements />} />
-        <Route path="/forms/form-layout" element={<FormLayout />} />
+        {/* <Route path="/profile" element={<Profile />} /> */}
+        {/* <Route path="/forms/form-elements" element={<FormElements />} />
+        <Route path="/forms/form-layout" element={<FormLayout />} /> */}
         <Route path="/actividades" element={<TablesActivity />} />
         <Route path="/opciones-clientes" element={<TablesClient />} />
         <Route path="/crear-actividad" element={<CreateActivity />} />
         <Route path="/publicar-anuncios" element={<CreateNew />} />
         <Route path="/chart" element={<Chart />} /> 
-        <Route path="/ui/alerts" element={<Alerts />} />
-        <Route path="/ui/buttons" element={<Buttons />} />
+        {/* <Route path="/ui/alerts" element={<Alerts />} />
+        <Route path="/ui/buttons" element={<Buttons />} /> */}
         <Route path="/auth/signin" element={<SignIn />} />
         <Route path="/auth/registrar-clientes" element={<SignUpClients />} />
         <Route path="/auth/signupcompany" element={<SignUpCompany />} />

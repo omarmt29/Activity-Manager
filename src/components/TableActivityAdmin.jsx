@@ -16,7 +16,7 @@ const TableClientsAdmin = () => {
   const [openModal, setOpenModal] = useState('');
   const [message, setmessage] = useState('');
   const [buttondisable, setbuttondisable] = useState(false);
-  const [activity, setactivity] = useState({ name: '', subtitle: '', description: '', image_url: '', location: '', date: '', id: 0 });
+  const [activity, setactivity] = useState({ name: '', subtitle: '', description: '', image_url: '', location: '', date: '', time: '' });
 
   useEffect(() => {
     fetchData().then(() => {
@@ -103,19 +103,7 @@ const TableClientsAdmin = () => {
   const handlerUpdateActivity = async (e, id) => {
     e.preventDefault();
     try {
-      // Recupera el registro actual
-      try {
-        const { data } = await supabase
-          .from('activity')
-          .select()
-          .eq('id', id);
 
-        if (data) {
-          setactivity({ ...activity, date: data[0].date, name: data[0].name, subtitle: data[0].subtitle, description: data[0].description, image_url: data[0].image_url, location: data[0].location})
-        }
-      } catch (error) {
-        console.log(error)
-      }
 
 
       // Al menos un valor es diferente, realiza la actualización
@@ -259,7 +247,8 @@ const TableClientsAdmin = () => {
                       </svg>
                     </button>
 
-                    <button id={e.name} onClick={() => setOpenModal(e.id)} >
+                    <button id={e.name} onClick={() => setOpenModal(e.id) + setactivity({ ...activity, date: e.date, name: e.name, subtitle: e.subtitle, description: e.description, image_url: e.image_url, location: e.location, time: e.time })
+                    } >
                       <FaRegSun className='hover:text-primary  hover:scale-125 transition-all ease-in' />
                     </button>
                   </div>
@@ -349,7 +338,8 @@ const TableClientsAdmin = () => {
                                   name="subtitle"
                                   id="subtitle"
                                   placeholder="Example subtitulo"
-                                  defaultValue={e.subtitle}
+                                defaultValue={e.subtitle}
+
                                   onChange={e => setactivity({ ...activity, subtitle: e.target.value })}
 
                                 />
@@ -420,16 +410,18 @@ const TableClientsAdmin = () => {
                               >
                                 Hora
                               </label>
-                              <div className="relative">
 
+                              <div className="relative">
                                 <input
-                                  type="text"
+                                  type="time"
                                   className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-200 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                  placeholder="Select date"
+                                  placeholder="ejemplo: 4:00 PM"
                                   onChange={e => setactivity({ ...activity, time: e.target.value })}
                                   defaultValue={e.time}
 
+
                                 />
+                              
                               </div>
                             </div>
 

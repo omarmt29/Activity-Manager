@@ -18,6 +18,7 @@ const Lobby = () => {
   useEffect(() => {
     const fetchData = async () => {
       const { data, error } = await supabase.auth.getSession();
+      console.log(data)
 
       if (data?.session) {
         setSession(data.session);

@@ -60,15 +60,15 @@ const DropdownUser = () => {
     })
   }, []);
 
-  useEffect(() => {
+  // useEffect(() => {
 
   
-    if (user.idCompany) {
-      handlercompany(user.idCompany).then(() => {
-        setUser({ ...user, image: companyresults[0].image });
-      });
-    }
-  }, [user.idCompany, handlercompany, companyresults]);
+  //   if (user.idCompany) {
+  //     handlercompany(user.idCompany).then(() => {
+  //       setUser({ ...user, image: companyresults[0].image });
+  //     });
+  //   }
+  // }, [user.idCompany, handlercompany, companyresults]);
 
 
 

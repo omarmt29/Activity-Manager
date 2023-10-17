@@ -129,3 +129,22 @@ export const ActivityRegistrationByUser = create((set) => ({
     }
   },
 }));
+
+
+export const checkUserPermissions = async (id) => {
+  const { data, error } = await supabase
+    .from('users')
+    .select('status, permissions')
+    .eq('id', id);
+
+  if (error) return console.log(error);
+
+  if (!data) return 'User does not exist';
+
+  if (data[0].status) {
+    return data[0].permissions ? 'admin' : 'user';
+  } else {
+    return 'Usuario desactivado';
+  }
+
+};

@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../servidor/Client.js'
-import UserOne from '../images/user/user-01.png';
 import { useNavigate } from "react-router-dom";
 import { useDataStore, managercompany } from '../store/services.js';
 
@@ -10,7 +9,6 @@ const DropdownUser = () => {
   const navigate = useNavigate();
   const { resetData } = useDataStore();
   const { data, fetchData } = useDataStore();
-  const { companyresults, handlercompany } = managercompany();
   const [user, setUser] = useState({ companyName: '', idCompany: '', image: '' })
 
   const trigger = useRef<any>(null);
@@ -60,15 +58,15 @@ const DropdownUser = () => {
     })
   }, []);
 
-  useEffect(() => {
+  // useEffect(() => {
 
   
-    if (user.idCompany) {
-      handlercompany(user.idCompany).then(() => {
-        setUser({ ...user, image: companyresults[0].image });
-      });
-    }
-  }, [user.idCompany, handlercompany, companyresults]);
+  //   if (user.idCompany) {
+  //     handlercompany(user.idCompany).then(() => {
+  //       setUser({ ...user, image: companyresults[0].image });
+  //     });
+  //   }
+  // }, [user.idCompany, handlercompany, companyresults]);
 
 
 
@@ -86,10 +84,10 @@ const DropdownUser = () => {
           </span>
           <span className="block text-xs"></span>
         </span>
-
+{/* 
         <span className="h-15 w-1h-15 rounded-full">
           <img className='w-15 h-15 object-cover rounded-full mt-1' src={user.image} alt="User" />
-        </span>
+        </span> */}
 
         <svg
           className={`hidden fill-current sm:block ${dropdownOpen ? 'rotate-180' : ''

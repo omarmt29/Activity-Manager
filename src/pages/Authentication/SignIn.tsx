@@ -4,7 +4,7 @@ import PublicDefaultLayout from '../../layout/PublicDefaultLayout';
 import { useState } from 'react'
 import { supabase } from '../../servidor/Client'
 import { useNavigate } from "react-router-dom";
-import { useDataStore } from '../../store/services.js';
+import { useDataStore, checkUserPermissions } from '../../store/services.js';
 
 const SignIn = () => {
 
@@ -12,7 +12,7 @@ const SignIn = () => {
   const [disable, setdisable] = useState(false)
   const navigate = useNavigate();
   const { fetchData } = useDataStore();
-
+  const [message, setmessage] = useState('')
 
 
   const handlersignin = async (e) => {
@@ -21,35 +21,62 @@ const SignIn = () => {
       email: user.email,
       password: user.password,
     })
-    console.log(data.session.user )
+    if (error) {
+      console.log(error.message)
+      setdisable(true);
 
+      setmessage(error.message);
+
+      setTimeout(function () {
+        setmessage('');
+        setdisable(false);
+      }, 3000);
+    }
+
+    const result = await checkUserPermissions(data.session.user.id)
+
+    const fetchDataAsync = async () => {
+      await fetchData(); // Llama a la función fetchData cuando el componente se monta
+
+
+      if (result == 'admin') {
+        navigate('/')
+      }
+      if (result == 'user') {
+        navigate('/user/lobby')
+      }
+      if (result === 'Usuario desactivado') {
+        setmessage(result);
+        setdisable(true);
+  
+        setTimeout(function () {
+          setmessage('');
+          setdisable(false);
+        }, 3000);
+      }
+    };
+    fetchDataAsync()
 
    
-      const fetchDataAsync = async () => {
-        await fetchData(); // Llama a la función fetchData cuando el componente se monta
-       console.log(data)
-      };
-      fetchDataAsync()
-  
 
-    if (data.session.user.user_metadata.status) {
-      const fetchDataAsync = async () => {
-        await fetchData(); // Llama a la función fetchData cuando el componente se monta
-        if (data.session.user.user_metadata.status ) {
-            data.session.user.user_metadata.permissions ? navigate("/") : navigate('/user/lobby')
-        } else {
-          navigate("/auth/signin");
-          if(data.session.user.user_metadata.status){
-            setdisable(true)
+    // if (data.session.user.user_metadata.status) {
+    //   const fetchDataAsync = async () => {
+    //     await fetchData(); // Llama a la función fetchData cuando el componente se monta
+    //     if (data.session.user.user_metadata.status ) {
+    //         data.session.user.user_metadata.permissions ? navigate("/") : navigate('/user/lobby')
+    //     } else {
+    //       navigate("/auth/signin");
+    //       if(data.session.user.user_metadata.status){
+    //         setdisable(true)
 
-          }
-        }
-      };
-      fetchDataAsync()
-    } else {
-      console.log(error.message)
+    //       }
+    //     }
+    //   };
+    //   fetchDataAsync()
+    // } else {
+    //   console.log(error.message)
 
-    }
+    // }
 
   }
   return (
@@ -279,7 +306,7 @@ const SignIn = () => {
 
 
               </form>
-              {disable ?   <div className="flex w-full items-center border-l-6 border-[#F87171] bg-[#F87171] bg-opacity-[15%] px-7 py-8 shadow-md dark:bg-[#1B1B24] dark:bg-opacity-30 md:p-9">
+              {disable && message == "Usuario desactivado" ? <div className="flex w-full items-center border-l-6 border-[#F87171] bg-[#F87171] bg-opacity-[15%] px-7 py-2 shadow-md dark:bg-[#1B1B24] dark:bg-opacity-30 md:p-2 ">
                 <div className="mr-5 flex h-9 w-full max-w-[36px] items-center justify-center rounded-lg bg-[#F87171]">
                   <svg
                     width="13"
@@ -297,11 +324,28 @@ const SignIn = () => {
                 </div>
                 <div className="w-full">
                   <h5 className="font-semibold text-[#B45454]">
-                    El usuario esta desactivado 🫤
+                    {message} 🫤
                   </h5>
 
                 </div>
               </div> : null}
+
+              {disable && message == 'Invalid login credentials' ?
+                <div className="flex w-full justify-center items-center border-l-6 border-[#f8a065] bg-[#f8a065] bg-opacity-[15%] px-7 py-8 shadow-md dark:bg-[#1B1B24] dark:bg-opacity-30 md:p-2">
+                  <div className="mr-5 flex h-9 w-full max-w-[36px] items-center justify-center rounded-lg bg-[#f6e3d7]">
+                    ⚠️
+                  </div>
+                  <div className="w-full">
+                    <h5 className=" font-semibold text-[#f8a065]">
+                      {message}
+                    </h5>
+                    <ul>
+                      <li className="leading-relaxed text-[#f8a065]">
+                        El usuario no existe o las credenciales son erroneas
+                      </li>
+                    </ul>
+                  </div>
+                </div> : null}
             </div>
           </div>
         </div>

@@ -171,7 +171,7 @@ const UserTableActivity = () => {
             )}
 
           </div>
-
+            
         </div>
       </div>
 

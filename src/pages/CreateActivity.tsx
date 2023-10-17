@@ -3,7 +3,11 @@ import DefaultLayout from '../layout/AdminLayout';
 import { supabase } from '../servidor/Client'
 import { useState, useEffect } from 'react'
 import { useDataStore } from '../store/services';
-
+import {
+  Input,
+  Timepicker,
+  initTE,
+} from "tw-elements";
 const Settings = () => {
 
   const [post, setposts] = useState({ name: '', subtitle: '', description: '', status: true, image_url: '', location: '', id_company: '', date: '', time: '', limit: 0 })
@@ -21,8 +25,27 @@ const Settings = () => {
     };
     fetchDataAsync()
     Intl.DateTimeFormat().resolvedOptions().timeZone = 'UTC';
-
+    initTE({ Input, Timepicker });
   }, [])
+  function convertToValidTimeFormat(inputTime) {
+    // Crear un objeto Date para analizar la cadena de tiempo en un formato de 24 horas
+    const parsedTime = new Date(`2000-01-01T${inputTime}`);
+
+    // Verificar si la conversión fue exitosa
+    if (!isNaN(parsedTime.getTime())) {
+      // Obtener horas y minutos en formato de 24 horas
+      const hours = parsedTime.getHours();
+      const minutes = parsedTime.getMinutes();
+
+      // Formatear las horas y minutos en "hh:mm"
+      const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+
+      return formattedTime;
+    } else {
+      console.log("Hora no válida");
+      return ""; // Devolver una cadena vacía en caso de error
+    }
+  }
 
   const handlerInsertImage = async (e) => {
 
@@ -172,7 +195,39 @@ const Settings = () => {
                       className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-200 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       placeholder="Select date"
                       onChange={e => setposts({ ...post, date: e.target.value })}
-                      
+
+                    />
+                  </div>
+                </div>
+                <div className="mb-5.5 item-container" >
+
+                  <label
+                    className="mb-3 block text-sm font-medium text-black dark:text-white"
+                    htmlFor="text"
+                  >
+                    Hora
+                  </label>
+                  
+                  {/* <div className='relative border-none' data-te-timepicker-init data-te-input-wrapper-init>
+                    <input
+                      onChange={(e) => {
+                        console.log(e.target.value);
+                      }}
+                      id='time'
+                      type='text'
+                      placeholder='Select time'
+                      className="cursor-pointer bg-gray-50 text-gray-200 text-sm rounded-lg border border-gray-200 outline-none shadow-none focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 p-2.5 dark:bg-gray-700  dark:placeholder-gray-200 dark:text-white"
+                    />
+
+                  </div> */}
+
+                  <div className="relative">
+                    <input
+                      type="time"
+                      className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-200 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="ejemplo: 4:00 PM"
+                      onChange={e => setposts({ ...post, time: e.target.value })}
+
                     />
                   </div>
                 </div>
@@ -181,32 +236,15 @@ const Settings = () => {
                     className="mb-3 block text-sm font-medium text-black dark:text-white"
                     htmlFor="date"
                   >
-                    Hora
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-200 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="ejemplo: 4:00 PM"
-                      onChange={e => setposts({ ...post, time: e.target.value })}
-                      
-                    />
-                  </div>
-                </div>
-                <div className="mb-5.5">
-                  <label
-                    className="mb-3 block text-sm font-medium text-black dark:text-white"
-                    htmlFor="number"
-                  >
                     Limite de participantes
                   </label>
                   <div className="relative">
                     <input
                       type="number"
                       className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-200 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="ejemplo: 4:00 PM"
+                      placeholder="0"
                       onChange={e => setposts({ ...post, limit: e.target.value })}
-                      
+
                     />
                   </div>
                 </div>

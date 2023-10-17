@@ -2,7 +2,7 @@ import { useLayoutEffect, useState } from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import { useNavigate } from "react-router-dom";
-import { useDataStore } from '../store/services';
+import { useDataStore, checkUserPermissions } from '../store/services';
 import { useEffect } from 'react';
 
 
@@ -18,18 +18,22 @@ const AdminLayout = ({ children }) => {
       const fetchDataAsync = async () => {
         await fetchData(); // Llama a la función fetchData cuando el componente se monta
         console.log(data);
+        const check = async () => {
+          const result = await checkUserPermissions(data.session.user.id)
 
-        if (data.session.user.user_metadata.permissions == false ) {
-          navigate('/user/lobby');
-        } else {
+          if (result == 'user') {
+            navigate('/user/lobby')
+          }
+          if (result == 'Usuario desactivado') {
+            navigate('/auth/signin')
+          }
         }
-
-        setExecuted(true); // Marca el efecto como ejecutado
+        check()
       };
 
       fetchDataAsync();
     }
-  }, [executed, navigate]); 
+  }, [executed, navigate]);
 
   return (
     <div className="dark:bg-gray-900 dark:text-bodydark">
