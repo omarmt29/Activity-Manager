@@ -132,11 +132,11 @@ const UserTableActivity = () => {
         <div className="max-w-full overflow-x-auto rounded-x4=l">
           <button className='my-3' onClick={e => handlerclients(e)}>Recargar</button>
           <div className="grid grid-cols-1 sm:grid-cols-1 xl:grid-cols-2 gap-5 pb-6 rounded-3xl">
-         
-            {Activity == false || null ? <div className='h-40 w-40 flex justify-center items-center'> <svg class="animate-spin  -ml-1  h-25 w-2h-25 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg> </div> : null}
+
+            {Activity == false || null ? <div className='h-full w-full flex justify-center items-center'> <svg class="animate-spin  -ml-1  h-25 w-2h-25 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg> </div> : null}
             {Activity.map(e =>
 
               <div key={e.index} className="h-full overflow-hidden  flex flex-col items-start relative bg-white border-2 border-primary rounded-3xl  shadow md:flex-row md:max-w-full hover:bg-gray-100 hover:cursor-pointer transition-all ease-in dark:border-gray-800 dark:hover:border-primary dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -148,17 +148,17 @@ const UserTableActivity = () => {
                   <div className='flex flex-col-reverse md:flex-row items-start h-full justify-between '>
                     <div>
                       <h5 className=" text-2xl font-extrabold mb-0 tracking-tight [text-shadow:_4px_4px_4px_rgb(0_0_0_/_30%)] text-white  dark:text-white">{e.name}</h5>
-                      <p className='text-black text-lg float-left dark:text-white/90  font-semibold'>{e.subtitle}</p>
+                      <p className='text-white text-lg float-left dark:text-white/90  font-semibold'>{e.subtitle}</p>
                     </div>
                     <p className='dark:bg-black/50 text-white float-right px-5 rounded-2xl py-1 font-medium mb-4 sm:mb-4 md:mb-0'>{e.date} / {e.time}</p>
                   </div>
 
-                  <div>
+                  <div className='w-full'>
                     <p className=" mt-4 font-normal text-white dark:text-white overflow-auto h-25 mb-2">{e.description}</p>
-                    <div className='flex items-end justify-between'>
-                    <button className='bg-primary/60 transition-all ease-in hover:bg-primary active:bg-primary w-1/4  text-white py-2 px-6 rounded-2xl' id={e.id} onClick={e => handlerRegistrations(e, e.target.getAttribute('id'))}>Registrarme</button>
-                      {e.registrations === e.limit ?  <p className='m-0 p-0 text-meta-7 text-lg font-semibold'>Sin cupos: {e.registrations} / {e.limit}</p> :  <p className='m-0 p-0 text-green-300 text-lg font-semibold'>Cupos: {e.registrations} / {e.limit}</p>} 
-                     
+                    <div className='flex flex-col-reverse items-end md:flex-row md:items-end w-full md:justify-between'>
+                      <button className='bg-primary/60 w-full transition-all mt-4 md:mt-0 ease-in hover:bg-primary active:bg-primary md:w-1/4  text-white py-2 px-6 rounded-2xl' id={e.id} onClick={e => handlerRegistrations(e, e.target.getAttribute('id'))}>Registrarme</button>
+                      {e.registrations === e.limit ? <p className='m-0 p-0 text-meta-7 text-lg font-semibold'>Sin cupos: {e.registrations} / {e.limit}</p> : <p className='m-0 p-0 text-green-300 text-lg font-semibold'>Cupos: {e.registrations} / {e.limit}</p>}
+
                     </div>
 
                   </div>
@@ -176,7 +176,7 @@ const UserTableActivity = () => {
             )}
 
           </div>
-            
+
         </div>
       </div>
 

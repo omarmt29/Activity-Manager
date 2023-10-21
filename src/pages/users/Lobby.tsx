@@ -74,7 +74,7 @@ const Lobby = () => {
         <div className="col-span-12 xl:col-span-12">
           {/* <UserTopActivities /> */}
           <div className='bg-white/5 h-full '>
-              <h2 className='text-white font-extrabold text-6xl'>BIENVENIDO</h2>
+              <h2 className='text-primary font-extrabold text-6xl dark:text-white'>BIENVENIDO</h2>
           </div>
         </div>
         {/* <ChatCard /> */}

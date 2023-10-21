@@ -33,7 +33,7 @@ const TablesActivity = () => {
           {/* <TableTwo /> */}  
         </div>
       </Breadcrumb>
-      <p className='mb-4 text-lg text-white'>Selecciona una actividad para agendarla</p>
+      <p className='mb-4 text-lg text-primary dark:text-white'>Selecciona una actividad para agendarla</p>
       <UserActivityList />
       
     </UserLayout>

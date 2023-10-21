@@ -138,8 +138,8 @@ const UserCalendar = () => {
 
       {activityId.map(a => <div className='hover:scale-110 transition-all ease-in w-full' key={a.index}>
 
-        <div className="w-full flex   bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-700 dark:border-gray-700 ">
-          <img className=" rounded-lg w-31 h-31 object-cover" src={a[0].image_url} alt="product image" />
+        <div className="w-full flex flex-col md:flex-row   bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-700 dark:border-gray-700 ">
+          <img className=" rounded-lg md:w-31 w-full h-31 object-cover" src={a[0].image_url} alt="product image" />
           <div className="px-5 pb-5 w-full flex flex-col justify-between">
             <h5 className="text-2xl mt-3 font-semibold tracking-tight text-gray-900 dark:text-white">{a[0].name}</h5>
             <div className="flex flex-col sm:flex-row sm:w-full sm:items-center  sm:justify-between">

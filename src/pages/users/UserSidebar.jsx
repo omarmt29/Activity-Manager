@@ -6,6 +6,8 @@ import { IoLogOutSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { supabase } from '../../servidor/Client.js'
 import { useDataStore, ListOfActivities } from '../../store/services.js';
+import logo_dark from '../../../public/logo-black.svg';
+import logo from '../../../public/logo.svg';
 
 const UserSidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
@@ -95,14 +97,13 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }) => {
   return (
     <aside
       ref={sidebar}
-      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-gray-500 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
     >
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
         <NavLink to="/user/lobby">
-          {/* <img src={Logo} alt="Logo" /> */}
-          <h2 className='font-extrabold text-3xl pl-3'>Turistapp</h2>
+          <img className='h-16 w-16 ' src={logo} alt="Logo" />
         </NavLink>
 
         <button
@@ -134,7 +135,7 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }) => {
         <nav className="mt-5 py-4 px-4 lg:mt-9 lg:px-6">
           {/* <!-- Menu Group --> */}
           <div>
-            <h3 className="mb-4  text-sm font-semibold text-bodydark2">
+            <h3 className="mb-4  text-sm font-semibold text-white">
               MENU
             </h3>
 
@@ -147,7 +148,7 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }) => {
               <li>
                 <NavLink
                   to="/user/lobby"
-                  className={`group relative flex items-center gap-3 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('/user/lobby') && 'bg-graydark dark:bg-primary'
+                  className={`group relative flex items-center gap-3 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-primary dark:hover:bg-meta-4 ${pathname.includes('/user/lobby') && 'bg-primary dark:bg-primary'
                     }`}
                 >
                   <FaHouse className='text-2xl' />
@@ -158,7 +159,7 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }) => {
               <li>
                 <NavLink
                   to="/user/activities"
-                  className={`group relative flex items-center gap-3 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('/user/activities') && 'bg-graydark dark:bg-primary'
+                  className={`group relative flex items-center gap-3 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-primary dark:hover:bg-meta-4 ${pathname.includes('/user/activities') && 'bg-primary dark:bg-primary'
                     }`}
                 >
                   <FaList className='text-2xl' />
@@ -171,7 +172,7 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }) => {
               <li>
                 <NavLink
                   to="/user/calendar"
-                  className={`group relative flex items-center gap-3 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('/user/calendar') && 'bg-graydark dark:bg-primary'
+                  className={`group relative flex items-center gap-3 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-primary dark:hover:bg-meta-4 ${pathname.includes('/user/calendar') && 'bg-primary dark:bg-primary'
                     }`}
                 >
                   <FaCalendarCheck className='text-2xl' />
@@ -179,18 +180,16 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   Reservadas
                 </NavLink>
               </li>
-              {/* <!-- Menu Item Calendar --> */}
               {/* <!-- Menu Item Settings --> */}
               <li >
-                <button
+                <NavLink
                   onClick={e => logout(e)}
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('settings') &&
-                    'bg-graydark dark:bg-primary'
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-primary dark:hover:bg-meta-4 ${pathname.includes('settings') && 'bg-primary dark:bg-primary'
                     }`}
                 >
                   <FaDoorOpen className='text-2xl' />
                   Cerrar sesión
-                </button>
+                </NavLink>
               </li>
               {/* <!-- Menu Item Settings --> */}
             </ul>
@@ -200,7 +199,7 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }) => {
         {/* <!-- Sidebar Menu --> */}
 
       </div>
-      <h3 className="mb-4 pl-5 text-sm font-semibold text-bodydark2">
+      <h3 className="mb-4 pl-5 text-sm font-semibold text-white">
         ANUNCIOS
       </h3>
 

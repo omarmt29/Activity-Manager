@@ -40,7 +40,7 @@ const SignIn = () => {
 
 
       if (result == 'admin') {
-        navigate('/')
+        navigate('/opciones-clientes')
       }
       if (result == 'user') {
         navigate('/user/lobby')
@@ -88,7 +88,7 @@ const SignIn = () => {
             <div className="py-17.5 px-26 text-center">
               <Link className="mb-5.5 inline-block" to="/">
               </Link>
-              <h2 className='text-7xl text-white font-bold'>Bienvenido</h2>
+              <h2 className='text-7xl dark:text-white text-black font-bold'>Bienvenido</h2>
 
 
               <span className="mt-15 inline-block">
