@@ -128,15 +128,20 @@ const UserTableActivity = () => {
 
   return (
     <div>
-      <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-        <div className="max-w-full overflow-x-auto">
+      <div className="rounded-xl border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+        <div className="max-w-full overflow-x-auto rounded-x4=l">
           <button className='my-3' onClick={e => handlerclients(e)}>Recargar</button>
-          <div className="grid grid-cols-1 sm:grid-cols-1 xl:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-1 xl:grid-cols-2 gap-5 pb-6 rounded-3xl">
+         
+            {Activity == false || null ? <div className='h-40 w-40 flex justify-center items-center'> <svg class="animate-spin  -ml-1  h-25 w-2h-25 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg> </div> : null}
             {Activity.map(e =>
 
-              <div key={e.index} className="h-full flex flex-col items-start relative bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-full hover:bg-gray-100 hover:cursor-pointer transition-all ease-in dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+              <div key={e.index} className="h-full overflow-hidden  flex flex-col items-start relative bg-white border-2 border-primary rounded-3xl  shadow md:flex-row md:max-w-full hover:bg-gray-100 hover:cursor-pointer transition-all ease-in dark:border-gray-800 dark:hover:border-primary dark:bg-gray-800 dark:hover:bg-gray-700">
                 <div className='w-full'>
-                  <img className="object-cover rounded-lg w-full  rounded-t-lg h-95  md:rounded-none md:rounded-l-lg " src={e.image_url ? e.image_url : 'https://placehold.co/600x400'} alt="" />
+                  <img className="object-cover  w-full  rounded-t-lg h-95  md:rounded-none md:rounded-l-lg " src={e.image_url ? e.image_url : 'https://placehold.co/600x400'} alt="" />
                 </div>
                 <div className="flex flex-col justify-between left-0 bottom-0 bg-gradient-to-t h-full bg-black/20 from-black/80 to-transparenth-full absolute p-4 leading-normal w-full">
 

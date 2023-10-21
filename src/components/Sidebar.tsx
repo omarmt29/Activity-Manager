@@ -66,7 +66,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
         <NavLink to="/">
-          <img className='w-22 pl-5 h-auto' src={logo} alt="Logo" />
+          <img className='w-20 pl-5 h-auto' src={logo} alt="Logo" />
           {/* <h2 className='font-extrabold text-3xl pl-3'>Administrador</h2> */}
         </NavLink>
 
@@ -269,7 +269,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   Actividades
                 </NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink
                   to="/Anuncios"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('Anuncios') && 'bg-graydark dark:bg-meta-4'
@@ -278,7 +278,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   <FaRegMap classname='w-5 h-auto text-gray-300' />
                   Anuncios
                 </NavLink>
-              </li>
+              </li> */}
               {/* <!-- Menu Item Tables --> */}
 
 

@@ -134,27 +134,29 @@ const TableClientsAdmin = () => {
           <thead>
 
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
-              <th className="min-w-[160px] py-4 px-4 font-semibold text-black dark:text-white xl:pl-11">
+              <th className="min-w-[140px] py-4 px-4 font-semibold text-black dark:text-white xl:pl-11">
                 Imagen
               </th>
-              <th className="min-w-[200px] py-4 px-4 font-semibold text-black dark:text-white xl:pl-11">
+              <th className="min-w-[150px] py-4 px-4 font-semibold text-black dark:text-white xl:pl-11">
                 Nombre
               </th>
-              <th className="min-w-[200px] py-4 px-4 font-semibold text-black dark:text-white xl:pl-11">
-                Subtitulo
-              </th>
-              <th className="min-w-[200px] py-4 px-4 font-semibold text-black dark:text-white">
+             
+              <th className="min-w-[150px] py-4 px-4 font-semibold text-black dark:text-white">
                 Estado
               </th>
-              <th className="min-w-[200px] py-4 px-4 font-semibold text-black dark:text-white">
+              <th className="min-w-[150px] py-4 px-4 font-semibold text-black dark:text-white">
                 Fecha
               </th>
-              <th className="min-w-[200px] py-4 px-4 font-semibold text-black dark:text-white">
+              <th className="min-w-[150px] py-4 px-4 font-semibold text-black dark:text-white">
                 Hora
               </th>
-              <th className="py-4 px-4 font-semibold text-black dark:text-white">
+              <th className="min-w-[150px] py-4 px-4 font-semibold text-black dark:text-white">
+                Limite
+              </th>
+              <th className="min-w-[150px] py-4 px-4 font-semibold text-black dark:text-white">
                 Acciones
               </th>
+
             </tr>
           </thead>
 
@@ -172,11 +174,6 @@ const TableClientsAdmin = () => {
                   </h5>
                 </td>
 
-                <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
-                  <h5 className="font-medium text-sm text-black dark:text-white">
-                    {e.subtitle}
-                  </h5>
-                </td>
 
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   {e.status ? <p className="inline-flex text-sm rounded-full bg-success bg-opacity-10 py-1 px-3 font-medium text-success">Habilitado</p> : <p className="inline-flex text-sm rounded-full bg-danger bg-opacity-10 py-1 px-3 font-medium text-danger">Desactivado</p>}
@@ -187,6 +184,9 @@ const TableClientsAdmin = () => {
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black text-sm dark:text-white">{e.time}</p>
+                </td>
+                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <p className="text-black text-sm dark:text-white">{e.registrations} / {e.limit}</p>
                 </td>
 
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -338,7 +338,7 @@ const TableClientsAdmin = () => {
                                   name="subtitle"
                                   id="subtitle"
                                   placeholder="Example subtitulo"
-                                defaultValue={e.subtitle}
+                                  defaultValue={e.subtitle}
 
                                   onChange={e => setactivity({ ...activity, subtitle: e.target.value })}
 
@@ -421,7 +421,28 @@ const TableClientsAdmin = () => {
 
 
                                 />
-                              
+
+                              </div>
+                            </div>
+                            <div className="mb-5.5">
+                              <label
+                                className="mb-3 block text-sm font-medium text-black dark:text-white"
+                                htmlFor="Username"
+                              >
+                                Limite de participantes
+                              </label>
+
+                              <div className="relative">
+                                <input
+                                  type="number"
+                                  className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-200 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                  placeholder="ejemplo: 5"
+                                  onChange={e => setactivity({ ...activity, limit: e.target.value })}
+                                  defaultValue={e.limit}
+
+
+                                />
+
                               </div>
                             </div>
 

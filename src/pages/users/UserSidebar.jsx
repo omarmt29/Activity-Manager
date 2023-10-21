@@ -5,14 +5,16 @@ import { FaHouse, FaList, FaCalendarCheck, FaDoorOpen } from "react-icons/fa6";
 import { IoLogOutSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { supabase } from '../../servidor/Client.js'
+import { useDataStore, ListOfActivities } from '../../store/services.js';
 
 const UserSidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
   const { pathname } = location;
   const navigate = useNavigate();
-
+  const [news, setnews] = useState([])
   const trigger = useRef(null);
   const sidebar = useRef(null);
+  const { data, fetchData } = useDataStore();
 
   const storedSidebarExpanded = localStorage.getItem('sidebar-expanded');
   const [sidebarExpanded, setSidebarExpanded] = useState(
@@ -46,6 +48,31 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }) => {
   });
 
 
+  const handlerNews = async (id) => {
+    const { data, error } = await supabase
+      .from('news')
+      .select('*')
+      .eq('id_company', id)
+      .order('id', {ascending: false})
+    console.log(error)
+    console.log(data)
+    setnews(data)
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data, error } = await supabase.auth.getSession();
+      if (data?.session) {
+        const companyId = data.session.user.user_metadata.id_company;
+        handlerNews(companyId)
+
+      }
+    };
+
+    fetchData()
+  }, []);
+
+
 
   useEffect(() => {
     localStorage.setItem('sidebar-expanded', sidebarExpanded.toString());
@@ -64,7 +91,7 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }) => {
       navigate('/auth/signin')
     }
   }
-  
+
   return (
     <aside
       ref={sidebar}
@@ -149,7 +176,7 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 >
                   <FaCalendarCheck className='text-2xl' />
 
-                  Calendario
+                  Reservadas
                 </NavLink>
               </li>
               {/* <!-- Menu Item Calendar --> */}
@@ -173,8 +200,12 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }) => {
         {/* <!-- Sidebar Menu --> */}
 
       </div>
-      <p className='mb-4  pl-5 text-bodydark2 font-semibold'>Anuncios</p>
-      <img className='w-full px-5 h-115 object-cover' src="https://placehold.co/600x400" alt="" />
+      <h3 className="mb-4 pl-5 text-sm font-semibold text-bodydark2">
+        ANUNCIOS
+      </h3>
+
+      {news.length > 0 ? <div className='rounded-md overflow-hidden px-5'> <img className='w-full  h-115 object-cover  rounded-xl' src={news[0].image_url} alt="" /></div> : null}
+
     </aside>
   );
 };

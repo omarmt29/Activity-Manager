@@ -59,11 +59,11 @@ const Lobby = () => {
  
   return (
     <UserLayout>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-2 2xl:gap-7.5">
-        <UserCardOne activities={users} className='w-full'/>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-1 2xl:gap-7.5">
+        {/* <UserCardOne activities={users} className='w-full'/> */}
         {/* <CardTwo /> */}
         {/* <CardThree /> */}
-        <UserAnuncio />
+        {/* <UserAnuncio /> */}
       </div>
 
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
@@ -72,7 +72,10 @@ const Lobby = () => {
         {/* <ChartThree /> */}
         {/* <MapOne /> */}
         <div className="col-span-12 xl:col-span-12">
-          <UserTopActivities />
+          {/* <UserTopActivities /> */}
+          <div className='bg-white/5 h-full '>
+              <h2 className='text-white font-extrabold text-6xl'>BIENVENIDO</h2>
+          </div>
         </div>
         {/* <ChatCard /> */}
       </div>

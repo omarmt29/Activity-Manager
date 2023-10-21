@@ -208,7 +208,7 @@ const Settings = () => {
                     Hora
                   </label>
                   
-                  {/* <div className='relative border-none' data-te-timepicker-init data-te-input-wrapper-init>
+                   {/* <div className='relative border-none' data-te-timepicker-init data-te-input-wrapper-init>
                     <input
                       onChange={(e) => {
                         console.log(e.target.value);
@@ -219,7 +219,7 @@ const Settings = () => {
                       className="cursor-pointer bg-gray-50 text-gray-200 text-sm rounded-lg border border-gray-200 outline-none shadow-none focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 p-2.5 dark:bg-gray-700  dark:placeholder-gray-200 dark:text-white"
                     />
 
-                  </div> */}
+                  </div>  */}
 
                   <div className="relative">
                     <input
