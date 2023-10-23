@@ -85,8 +85,10 @@ const Lobby = () => {
             <div className='mt-25 flex-col md:flex-row gap-12 md:gap-0 flex w-full items-center justify-between'>
               <div className='max-w-203'>
                 <h2 className='mb-5 dark:text-white text-2xl md:text-5xl font-extrabold'>¿Cómo se agenda una actividad?</h2>
-                <p className='md:text-xl'>Para agendar una actividad, dirígete al menú de la izquierda y ve a la sección "Actividades", <br></br>Allí podrás reservar la que más te interese. Si necesitas reservar una, simplemente haz clic en el botón:</p>
-                <button className='bg-primary text-white dark:text-white px-4 py-2 mt-4'>Registrarme</button>
+                <p className='md:text-xl'>Para agendar una actividad, primero dirígete al menú de la izquierda de nuestra plataforma. Luego, encuentra la sección etiquetada como 'Actividades'. Aquí encontrarás una lista de todas las actividades disponibles para reservar. Examina la lista y selecciona la que más te interese o se ajuste a tus planes.
+                  <br /><br />
+                  Una vez que hayas elegido una actividad, simplemente haz clic en el botón correspondiente a esa actividad para completar el proceso de reserva. Esto te llevará a una página donde podrás revisar los detalles de la actividad, como la fecha, hora y ubicación. Asegúrate de verificar que todo sea correcto antes de confirmar tu reserva.</p>
+                <button className='bg-primary text-white dark:text-white px-4 py-2 mt-8'>Registrarme</button>
               </div>
               <img className='w-125 sm:mt-12 h-auto' src={faq} alt="" />
             </div>
@@ -94,12 +96,16 @@ const Lobby = () => {
             <div className='h-[1px] mt-30 bg-gray-700 w-full hidden md:block'></div>
 
             <div className='mt-25 flex-col-reverse md:flex-row gap-12 md:gap-0 flex w-full items-center justify-between'>
-              <img className='w-125 sm:mt-12 h-auto' src={delete_image} alt=""  />
+              <img className='w-125 sm:mt-12 h-auto' src={delete_image} alt="" />
 
               <div className='max-w-180'>
                 <h2 className='mb-5 dark:text-white text-2xl md:text-5xl font-extrabold'>¿Deseas cancelar una reservación?</h2>
-                <p className='md:text-xl '>Dirígete al menú, en la sección 'Reservas', podrás visualizar todas las actividades ya reservadas con tu cuenta. Si necesitas cancelar alguna, simplemente haz clic en el botón:</p>
-                <button className='bg-red-500 text-white px-4 py-2 mt-4'>Cancelar Reservacion</button>
+                <p className='md:text-xl '>Dirígete al menú de usuario, en la sección 'Reservas'. Aquí encontrarás una lista completa de todas las actividades que has reservado previamente con tu cuenta. Esta función te proporciona un registro detallado de tus actividades programadas, lo que facilita la gestión y el seguimiento de tus compromisos.
+                <br /> <br />
+                  Si en algún momento necesitas cancelar una reserva, el proceso es rápido y sencillo. Para cancelar una reserva, simplemente localiza la actividad que deseas cancelar en la lista de reservas. Luego, haz clic en el botón 'Cancelar' que corresponde a esa actividad en particular. Una vez que hayas confirmado la cancelación, recibirás una notificación para informarte que la reserva se ha cancelado con éxito.
+                <br /><br />
+                  Recuerda que, si tienes alguna pregunta o necesitas asistencia adicional en relación con las cancelaciones, nuestro equipo de soporte siempre está disponible para ayudarte. Estamos aquí para que tu experiencia con nosotros sea lo más conveniente y personalizada posible.</p>
+                <button className='bg-red-500 text-white px-4 py-2 mt-8'>Cancelar Reservacion</button>
               </div>
             </div>
 
