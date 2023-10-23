@@ -128,7 +128,7 @@ const UserTableActivity = () => {
 
   return (
     <div>
-      <div className="rounded-xl border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+      <div className="rounded-xl md:border border-stroke md:bg-white md:px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full overflow-x-auto rounded-x4=l">
           <button className='my-3' onClick={e => handlerclients(e)}>Recargar</button>
           <div className="grid grid-cols-1 sm:grid-cols-1 xl:grid-cols-2 gap-5 pb-6 rounded-3xl">
@@ -150,7 +150,7 @@ const UserTableActivity = () => {
                       <h5 className=" text-2xl font-extrabold mb-0 tracking-tight [text-shadow:_4px_4px_4px_rgb(0_0_0_/_30%)] text-white  dark:text-white">{e.name}</h5>
                       <p className='text-white text-lg float-left dark:text-white/90  font-semibold'>{e.subtitle}</p>
                     </div>
-                    <p className='dark:bg-black/50 text-white float-right px-5 rounded-2xl py-1 font-medium mb-4 sm:mb-4 md:mb-0'>{e.date} / {e.time}</p>
+                    <p className='dark:bg-black/50 text-white float-right md:px-5 rounded-2xl py-1 font-medium mb-4 sm:mb-4 md:mb-0'>{e.date} / {e.time}</p>
                   </div>
 
                   <div className='w-full'>
