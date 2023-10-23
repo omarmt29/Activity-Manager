@@ -83,9 +83,10 @@ const Lobby = () => {
             </div>
 
             <div className='mt-25 flex-col md:flex-row gap-12 md:gap-0 flex w-full items-center justify-between'>
-              <div className=''>
+              <div className='max-w-203'>
                 <h2 className='mb-5 dark:text-white text-2xl md:text-5xl font-extrabold'>¿Cómo se agenda una actividad?</h2>
-                <p className='md:text-xl'>Para agendar una actividad, dirígete al menú de la izquierda y ve a la sección "Actividades", <br></br>Allí podrás reservar la que más te interese.</p>
+                <p className='md:text-xl'>Para agendar una actividad, dirígete al menú de la izquierda y ve a la sección "Actividades", <br></br>Allí podrás reservar la que más te interese. Si necesitas reservar una, simplemente haz clic en el botón:</p>
+                <button className='bg-primary text-white dark:text-white px-4 py-2 mt-4'>Registrarme</button>
               </div>
               <img className='w-125 sm:mt-12 h-auto' src={faq} alt="" />
             </div>
