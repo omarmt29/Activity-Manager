@@ -3,8 +3,8 @@ import UserCardOne from './UserCardOne.jsx';
 import UserTopActivities from './UserTopActivities';
 import { useNavigate } from "react-router-dom";
 import { supabase } from '../../servidor/Client.js'
-import welcome from '../../../public/welcome.svg'
-import faq from '../../../public/faq.svg'
+import welcome2 from '../../../public/welcome2.svg'
+import password from '../../../public/password.svg'
 import delete_image from '../../../public/delete_image.svg'
 import { useEffect, useState } from 'react';
 import UserLayout from '../../layout/UserLayout.jsx';
@@ -77,9 +77,15 @@ const Lobby = () => {
           {/* <UserTopActivities /> */}
           <div className='h-full w-full pb-25 '>
 
-            <div className='flex justify-center'>
-              <img className='w-132 sm:mt-12 h-auto' src={welcome} alt="" />
+            <div className='flex items-center justify-between flex-col md:flex-row  w-full'>
+              <img className='w-125 sm:mt-12 h-auto md:pr-30' src={welcome2} alt="" />
+              <div  className='flex flex-col gap-5 w-full'>
+                <h2 className='text-3xl text-center mt-12 md:text-start  md:text-8xl dark:text-white  font-extrabold'>BIENVENIDO</h2>
+                <p className='text-start md:text-xl'>¡Bienvenido a nuestra emocionante aplicación web de gestión de actividades turísticas! <br></br><br></br>
 
+                  Estamos encantados de que hayas decidido unirte a nuestra comunidad de amantes de los viajes y las aventuras. Con esta aplicación, tendrás acceso a una amplia gama de actividades turísticas emocionantes y únicas, diseñadas para que tu experiencia de viaje sea inolvidable.</p>
+
+              </div>
             </div>
 
             <div className='mt-25 flex-col md:flex-row gap-12 md:gap-0 flex w-full items-center justify-between'>
@@ -90,7 +96,7 @@ const Lobby = () => {
                   Una vez que hayas elegido una actividad, simplemente haz clic en el botón correspondiente a esa actividad para completar el proceso de reserva. Esto te llevará a una página donde podrás revisar los detalles de la actividad, como la fecha, hora y ubicación. Asegúrate de verificar que todo sea correcto antes de confirmar tu reserva.</p>
                 <button className='bg-primary text-white dark:text-white px-4 py-2 mt-8'>Registrarme</button>
               </div>
-              <img className='w-125 sm:mt-12 h-auto' src={faq} alt="" />
+              <img className='w-125 sm:mt-12 h-auto' src={password} alt="" />
             </div>
 
             <div className='h-[1px] mt-30 bg-gray-700 w-full hidden md:block'></div>
@@ -101,9 +107,9 @@ const Lobby = () => {
               <div className='max-w-180'>
                 <h2 className='mb-5 dark:text-white text-2xl md:text-5xl font-extrabold'>¿Deseas cancelar una reservación?</h2>
                 <p className='md:text-xl '>Dirígete al menú de usuario, en la sección 'Reservas'. Aquí encontrarás una lista completa de todas las actividades que has reservado previamente con tu cuenta. Esta función te proporciona un registro detallado de tus actividades programadas, lo que facilita la gestión y el seguimiento de tus compromisos.
-                <br /> <br />
+                  <br /> <br />
                   Si en algún momento necesitas cancelar una reserva, el proceso es rápido y sencillo. Para cancelar una reserva, simplemente localiza la actividad que deseas cancelar en la lista de reservas. Luego, haz clic en el botón 'Cancelar' que corresponde a esa actividad en particular. Una vez que hayas confirmado la cancelación, recibirás una notificación para informarte que la reserva se ha cancelado con éxito.
-                <br /><br />
+                  <br /><br />
                   Recuerda que, si tienes alguna pregunta o necesitas asistencia adicional en relación con las cancelaciones, nuestro equipo de soporte siempre está disponible para ayudarte. Estamos aquí para que tu experiencia con nosotros sea lo más conveniente y personalizada posible.</p>
                 <button className='bg-red-500 text-white px-4 py-2 mt-8'>Cancelar Reservacion</button>
               </div>
