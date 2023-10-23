@@ -80,7 +80,7 @@ const Lobby = () => {
             <div className='flex items-center justify-between flex-col md:flex-row  w-full'>
               <img className='w-125 sm:mt-12 h-auto md:pr-30' src={welcome2} alt="" />
               <div  className='flex flex-col gap-5 w-full'>
-                <h2 className='text-3xl text-center mt-12 md:text-start  md:text-8xl dark:text-white  font-extrabold'>BIENVENIDO</h2>
+                <h2 className='text-3xl text-center mt-12 md:text-start  md:text-8xl dark:text-white  font-extrabold'>BIENVENIDOS</h2>
                 <p className='text-start md:text-xl'>¡Bienvenido a nuestra emocionante aplicación web de gestión de actividades turísticas! <br></br><br></br>
 
                   Estamos encantados de que hayas decidido unirte a nuestra comunidad de amantes de los viajes y las aventuras. Con esta aplicación, tendrás acceso a una amplia gama de actividades turísticas emocionantes y únicas, diseñadas para que tu experiencia de viaje sea inolvidable.</p>
