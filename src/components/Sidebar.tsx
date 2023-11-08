@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation, } from 'react-router-dom';
 import SidebarLinkGroup from './SidebarLinkGroup';
-import { FaRegSquarePlus, FaRegMap } from "react-icons/fa6";
+import { FaRegSquarePlus, FaRegChartBar } from "react-icons/fa6";
 import logo from '../../public/logo.svg'
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -105,7 +105,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               {/* <!-- Menu Item Dashboard --> */}
               <SidebarLinkGroup
                 activeCondition={
-                  pathname.includes('publicar-anuncios') || pathname.includes('crear-actividad')
+                  pathname.includes('publicar-anuncios') || pathname.includes('crear-actividad') || pathname.includes('actividades')
                 }
               >
                 {(handleClick, open) => {
@@ -174,7 +174,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       >
                         <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
 
-                          {/* <!-- Menu Item Settings --> */}
+                        
+                          <li>
+                            <NavLink
+                              to="/actividades"
+                              className={`group relative text-xs flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('actividades') &&
+                                'bg-graydark dark:bg-meta-4'
+                                }`}
+                            >
+                              <FaRegChartBar className='w-5 h-auto text-gray-300' />
+                              Actividades
+                            </NavLink>
+                          </li>
                           <li>
                             <NavLink
                               to="/crear-actividad"
@@ -217,7 +228,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           <li>
                             <NavLink
                               to="/publicar-anuncios"
-                              className={`group relative flex items-center gap-2.5 text-xs rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('/publicar-anuncios') &&
+                              className={`group relative flex items-center gap-2.5 text-xs rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('publicar-anuncios') &&
                                 'bg-graydark dark:bg-meta-4'
                                 }`}
                             >
@@ -235,7 +246,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               {/* <!-- Menu Item Dashboard --> */}
 
               {/* <!-- Menu Item Tables --> */}
-              <li>
+              {/* <li>
                 <NavLink
                   to="/actividades"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('tables') && 'bg-graydark dark:bg-meta-4'
@@ -268,7 +279,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   </svg>
                   Actividades
                 </NavLink>
-              </li>
+              </li> */}
               {/* <li>
                 <NavLink
                   to="/Anuncios"
@@ -445,7 +456,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               {/* <!-- Menu Item Auth Pages --> */}
               <SidebarLinkGroup
                 activeCondition={
-                  pathname === '/auth' || pathname.includes('auth')
+                  pathname === '/auth/registrar-clientes' || pathname.includes('opciones-clientes')
                 }
               >
                 {(handleClick, open) => {

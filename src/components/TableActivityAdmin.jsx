@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { supabase } from '../servidor/Client.js'
 import { format } from 'date-fns';
 import { FaRegEyeSlash, FaRegSun } from "react-icons/fa";
+import { FaRegUser } from "react-icons/fa6";
 import { Button, Modal, Table } from 'flowbite-react';
 import { DateTime } from 'luxon';
 import { tr } from 'date-fns/locale';
@@ -315,7 +316,8 @@ const TableClientsAdmin = () => {
                       <FaRegSun className='hover:text-primary  hover:scale-125 transition-all ease-in' />
                     </button>
                     <button id={e.name} onClick={() => selectallregistrations(e.id, e.id)}>
-                      <FaRegSun className='hover:text-primary  hover:scale-125 transition-all ease-in' />
+                    
+                      <FaRegUser className='hover:text-primary  hover:scale-125 transition-all ease-in' />
                     </button>
                   </div>
                 </td>
@@ -531,26 +533,26 @@ const TableClientsAdmin = () => {
                 <>
                   <tr className='bg-black-2/80 overflow-auto border-primary/30 border-b w-full'>
                     <td >
-                      <div className='ps-12 flex w-full justify-start'>
+                      <div className='ps-12 flex w-full justify-start text-white'>
                         Foto
                       </div>
                     </td>
                     <td>
                       <div className='flex w-full justify-start'>
-                        <p className='py-6 pl-4'>Nombre</p>
+                        <p className='py-6 pl-4 text-white'>Nombre</p>
 
                       </div>
                     </td>
                     <td>
                       <div className='flex w-full justify-start'>
-                        <p className='py-6 pl-4'>Correo electronico</p>
+                        <p className='py-6 pl-4 text-white'>Correo electronico</p>
 
                       </div>
 
                     </td>
                     <td>
                       <div className='flex w-full justify-end'>
-                        <p className='py-6 pl-16 md:pl-4'>Fecha de reservacion</p>
+                        <p className='py-6 pl-16 md:pl-4 text-white'>Fecha de reservacion</p>
 
                       </div>
 
@@ -562,7 +564,7 @@ const TableClientsAdmin = () => {
 
                     </td>
                     <td>
-                      <div className='flex w-full justify-start'>
+                      <div className='flex w-full justify-start text-white'>
                         Eliminar cliente
                       </div>
                     </td>
@@ -573,25 +575,26 @@ const TableClientsAdmin = () => {
                       <tr className='bg-black-2/30 overflow-auto border-primary/30 border-b w-full'>
                         <td >
                           <div className='ps-3 flex w-full justify-start'>
-                            <img className="w-7 h-7 ms-11 object-cover rounded-full" src={e.image_url} alt="" />
+                            <img className="w-7 h-7 ms-11 object-cover rounded-full" src={`https://picsum.photos/200/300?random=${client.id}`}  alt="" />
+                            
                           </div>
                         </td>
                         <td>
                           <div className='flex w-full justify-start'>
-                            <p className='py-6 pl-6'>{client.name}</p>
+                            <p className='py-6 text-white/80 dark:text-white/60 pl-6'>{client.name}</p>
 
                           </div>
                         </td>
                         <td>
                           <div className='flex w-full justify-start'>
-                            <p className='py-6 pl-4'> {client.email}</p>
+                            <p className='py-6 text-white/80 dark:text-white/60 pl-4'> {client.email}</p>
 
                           </div>
 
                         </td>
                         <td>
                           <div className='flex w-full justify-end'>
-                            <p className='py-6 pl-4'> {DateTime.fromISO(client.created_at, { zone: 'utc' }).toFormat('yyyy-MM-dd')}</p>
+                            <p className='py-6 text-white/80 dark:text-white/60 pl-4'> {DateTime.fromISO(client.created_at, { zone: 'utc' }).toFormat('yyyy-MM-dd')}</p>
 
                           </div>
 

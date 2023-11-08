@@ -1,16 +1,17 @@
 import Breadcrumb from '../components/Breadcrumb';
 import DefaultLayout from '../layout/AdminLayout';
 import { supabase } from '../servidor/Client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useDataStore } from '../store/services';
 
 const CreateNew = () => {
 
-  const [post, setposts] = useState({  status: true, image_url: '', id_company: '', interest: 0, })
+  const [post, setposts] = useState({ status: true, image_url: '', id_company: '', interest: 0, })
   const [message, setmessage] = useState('')
   const { data, fetchData } = useDataStore();
   const [buttondisable, setbuttondisable] = useState(true);
-
+  const image = useRef();
+  const [imagePreview, setImagePreview] = useState(null);
   useEffect(() => {
     const fetchDataAsync = async () => {
       await fetchData(); // Llama a la función fetchData cuando el componente se monta
@@ -24,12 +25,25 @@ const CreateNew = () => {
 
   }, [])
 
-  const handlerInsertImage = async (e) => {
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
 
-    // console.log(e.target.files[0])
+      reader.onload = (e) => {
+        setImagePreview(e.target.result);
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handlerInsertImage = async (e) => {
+    handleImageChange(e)
+    console.log(e.target.files[0])
+
     const file = e.target.files[0]
     const randomstring = Math.random().toString(36).slice(-8);
-
     const { data } = await supabase
       .storage
       .from('image-activity')
@@ -62,7 +76,7 @@ const CreateNew = () => {
     e.preventDefault()
     const { error } = await supabase
       .from('news')
-      .insert({status: post.status, image_url: post.image_url, id_company: post.id_company, interest: 0})
+      .insert({ status: post.status, image_url: post.image_url, id_company: post.id_company, interest: 0 })
 
     console.log(error)
 
@@ -80,11 +94,11 @@ const CreateNew = () => {
         <div className="col-span-5 xl:col-span-5">
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
-            
+
             </div>
             <div className="p-7">
 
-              {message ? <h2 className='mb-5 bg-green-400/50 border-2 border-green-500  text-white py-2 text-center rounded-2xl'>{message} ✅</h2> : null}
+              {message ? <h2 className='mb-5 bg-green-400/50 border-2 border-green-500 w-1/2 m-auto text-white py-2 text-center rounded-sm'>{message} ✅</h2> : null}
 
               <div
                 id="FileUpload"
@@ -132,43 +146,44 @@ const CreateNew = () => {
                   <p className="mt-1.5">SVG, PNG, JPG or GIF</p>
                   <p>(max, 800 X 800px)</p>
                 </div>
+                {imagePreview && <img className='w-full mt-12' src={imagePreview} alt="Preview" />}
               </div>
 
 
             </div>
           </div>
         </div>
-      
 
-          <div className="col-span-5 ">
-            <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
 
-              <div className="p-7">
+        <div className="col-span-5 ">
+          <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
 
-                <div className="flex justify-center gap-4.5">
-                  {buttondisable ?
-                    <button
-                      className="flex justify-center rounded bg-primary/20 py-2 px-6 font-medium text-gray hover:bg-opacity-70"
-                      type="submit"
-                      disabled
-                    >
-                      Publicar
-                    </button> :
+            <div className="p-7">
 
-                    <button
-                      className="flex justify-center rounded bg-primary/70 py-2 px-6 font-medium text-white hover:bg-primary"
-                      type="submit"
-                      onClick={e => handlerInsertAcivity(e)}
+              <div className="flex justify-center gap-4.5">
+                {buttondisable ?
+                  <button
+                    className="flex justify-center rounded bg-primary/20 py-2 px-6 font-medium text-gray hover:bg-opacity-70"
+                    type="submit"
+                    disabled
+                  >
+                    Publicar
+                  </button> :
 
-                    >
-                      Publicar
-                    </button>}
-                </div>
+                  <button
+                    className="flex justify-center rounded bg-primary/70 py-2 px-6 font-medium text-white hover:bg-primary"
+                    type="submit"
+                    onClick={e => handlerInsertAcivity(e)}
 
+                  >
+                    Publicar
+                  </button>}
               </div>
+
             </div>
           </div>
         </div>
+      </div>
     </DefaultLayout>
   );
 };
