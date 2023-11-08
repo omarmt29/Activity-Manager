@@ -16,12 +16,17 @@ const UserTableActivity = () => {
   const [openModal, setOpenModal] = useState('');
   const [message, setmessage] = useState({ status: false, id: '', fail: false });
   const [buttondisable, setbuttondisable] = useState(false);
+  const [activityData, setactivityData] = useState({email: '', name: '', time: '', url_image: '' })
   // const [activity, setactivity] = useState({ name: '', subtitle: '', description: '', image_url: '', location: '', date: '', id: 0 });
 
   useEffect(() => {
     fetchData().then(() => {
       const companyId = data.session.user.user_metadata.id_company;
       const iduser = data.session.user.id;
+      const email = data.session.user.email;
+      const name = data.session.user.user_metadata.name;
+      setactivityData({...activityData, email: email, name: name});
+      console.log(activityData);
       setIdCompany(companyId);
       setUserId(iduser);
       console.log(userid)
@@ -71,7 +76,7 @@ const UserTableActivity = () => {
 
 
 
-  const handlerRegistrations = async (e, id) => {
+  const handlerRegistrations = async (e, id, image) => {
 
     e.preventDefault();
 
@@ -97,9 +102,10 @@ const UserTableActivity = () => {
 
 
       if (registrations < limits && data.length < 1) {
+    
         const { error } = await supabase
           .from('activity_registrations')
-          .insert({ id_activity: id, id_user: userid, id_company: idCompany });
+          .insert({ id_activity: id, id_user: userid, id_company: idCompany, email: activityData.email, name: activityData.name, url_image: image});
 
         const { data } = await supabase
           .from("activity")
@@ -156,7 +162,7 @@ const UserTableActivity = () => {
                   <div className='w-full'>
                     <p className=" mt-4 font-normal text-white dark:text-white overflow-auto h-25 mb-2">{e.description}</p>
                     <div className='flex flex-col-reverse items-end md:flex-row md:items-end w-full md:justify-between'>
-                      <button className='bg-primary/60 w-full transition-all mt-4 md:mt-0 ease-in hover:bg-primary active:bg-primary md:w-1/4  text-white py-2 px-6 rounded-2xl' id={e.id} onClick={e => handlerRegistrations(e, e.target.getAttribute('id'))}>Registrarme</button>
+                      <button data-image={e.image_url} className='bg-primary/60 w-full transition-all mt-4 md:mt-0 ease-in hover:bg-primary active:bg-primary md:w-1/4  text-white py-2 px-6 rounded-2xl' id={e.id} onClick={(e) => {handlerRegistrations(e, e.target.getAttribute('id'), e.target.getAttribute('data-image'))} }>Registrarme</button>
                       {e.registrations === e.limit ? <p className='m-0 p-0 text-meta-7 text-lg font-semibold'>Sin cupos: {e.registrations} / {e.limit}</p> : <p className='m-0 p-0 text-green-300 text-lg font-semibold'>Cupos: {e.registrations} / {e.limit}</p>}
 
                     </div>

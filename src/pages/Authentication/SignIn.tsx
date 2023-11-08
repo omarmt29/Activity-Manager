@@ -16,7 +16,9 @@ const SignIn = () => {
 
 
   const handlersignin = async (e) => {
+
     e.preventDefault()
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email: user.email,
       password: user.password,
@@ -57,28 +59,8 @@ const SignIn = () => {
     };
     fetchDataAsync()
 
-   
-
-    // if (data.session.user.user_metadata.status) {
-    //   const fetchDataAsync = async () => {
-    //     await fetchData(); // Llama a la función fetchData cuando el componente se monta
-    //     if (data.session.user.user_metadata.status ) {
-    //         data.session.user.user_metadata.permissions ? navigate("/") : navigate('/user/lobby')
-    //     } else {
-    //       navigate("/auth/signin");
-    //       if(data.session.user.user_metadata.status){
-    //         setdisable(true)
-
-    //       }
-    //     }
-    //   };
-    //   fetchDataAsync()
-    // } else {
-    //   console.log(error.message)
-
-    // }
-
   }
+
   return (
     <PublicDefaultLayout>
       <Breadcrumb pageName="Iniciar sesión" />
@@ -88,7 +70,7 @@ const SignIn = () => {
             <div className="py-17.5 px-26 text-center">
               <Link className="mb-5.5 inline-block" to="/">
               </Link>
-              <h2 className='text-7xl dark:text-white text-black font-bold'>Bienvenido</h2>
+              <h2 className='text-7xl dark:text-white text-black font-bold'>Bienvenidos</h2>
 
 
               <span className="mt-15 inline-block">

@@ -5,8 +5,9 @@ import { useState } from 'react'
 import { supabase } from '../servidor/Client.js'
 import { format } from 'date-fns';
 import { FaRegEyeSlash, FaRegSun } from "react-icons/fa";
-import { Button, Modal } from 'flowbite-react';
+import { Button, Modal, Table } from 'flowbite-react';
 import { DateTime } from 'luxon';
+import { tr } from 'date-fns/locale';
 
 const TableClientsAdmin = () => {
   const { data, fetchData } = useDataStore();
@@ -17,18 +18,87 @@ const TableClientsAdmin = () => {
   const [message, setmessage] = useState('');
   const [buttondisable, setbuttondisable] = useState(false);
   const [activity, setactivity] = useState({ name: '', subtitle: '', description: '', image_url: '', location: '', date: '', time: '' });
+  const [openRowIndex, setOpenRowIndex] = useState(null);
+  const [registrations, setregistrations] = useState([])
+
+
+  const toggleDropdown = (index) => {
+    if (openRowIndex === index) {
+      setOpenRowIndex(null); // Cierra la fila si ya está abierta
+    } else {
+      setOpenRowIndex(index); // Abre la fila seleccionada
+    }
+  };
+
+
+  const delectClientRegistrations = async (id, activity) => {
+    console.log(id, activity);
+    const { data, error } = await supabase
+      .from('activity_registrations')
+      .delete()
+      .eq('id_activity', activity)
+      .eq('id_user', id)
+      .single();
+
+    if (!error) {
+      alert('Registro eliminado exitosamente.');
+
+      // Actualizar el conteo de inscripciones en la actividad
+      const updatedActivity = await supabase
+        .from('activity')
+        .select('registrations')
+        .eq('id', activity)
+        .single();
+
+      const newRegistrationsCount = updatedActivity.data.registrations - 1;
+
+      const { data: updatedData, error: updateError } = await supabase
+        .from('activity')
+        .update({ registrations: newRegistrationsCount })
+        .eq('id', activity);
+
+      if (!updateError) {
+        console.log('Conteo de inscripciones actualizado:', newRegistrationsCount);
+        selectallregistrations(activity)
+      } else {
+        console.error('Error al actualizar el conteo de inscripciones:', updateError);
+      }
+    } else {
+      console.error('Error al eliminar el registro:', error);
+    }
+  };
+
+  const selectallregistrations = async (e, id) => {
+    const { data, error } = await supabase
+      .from('activity_registrations')
+      .select('*')
+      .eq('id_activity', id)
+
+    if (error) {
+      console.log(error)
+    }
+    setregistrations(data)
+    console.log(registrations);
+
+    toggleDropdown(e)
+
+  }
+
 
   useEffect(() => {
     fetchData().then(() => {
       const companyId = data.session.user.user_metadata.id_company;
       setIdCompany(companyId);
+      selectallregistrations()
     });
   }, []);
+
 
   useEffect(() => {
     if (idCompany) {
       searchSupabase(idCompany).then(() => {
         setUsers(searchResults);
+
       });
     }
   }, [idCompany, searchSupabase, searchResults]);
@@ -43,12 +113,7 @@ const TableClientsAdmin = () => {
     setUsers(newData);
   };
 
-  const handlerDeleteClient = async (id) => {
-    const { error } = await supabase
-      .from('activity')
-      .delete()
-      .eq('id', id)
-  }
+
 
   const handlerStatusClient = async (id, status) => {
     console.log(id)
@@ -96,15 +161,12 @@ const TableClientsAdmin = () => {
       }
       InserData()
 
-
     }
   }
 
   const handlerUpdateActivity = async (e, id) => {
     e.preventDefault();
     try {
-
-
 
       // Al menos un valor es diferente, realiza la actualización
       const { data, error } = await supabase
@@ -126,6 +188,7 @@ const TableClientsAdmin = () => {
 
 
 
+
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="max-w-full overflow-x-auto">
@@ -140,7 +203,7 @@ const TableClientsAdmin = () => {
               <th className="min-w-[150px] py-4 px-4 font-semibold text-black dark:text-white xl:pl-11">
                 Nombre
               </th>
-             
+
               <th className="min-w-[150px] py-4 px-4 font-semibold text-black dark:text-white">
                 Estado
               </th>
@@ -160,9 +223,9 @@ const TableClientsAdmin = () => {
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className='w-full'>
             {users.map(e => <>
-              <tr key={e.index}>
+              <tr key={e.index} className='relative'>
 
                 <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                   <img className="w-12 h-12 object-cover rounded-full" src={e.image_url} alt="" />
@@ -251,8 +314,12 @@ const TableClientsAdmin = () => {
                     } >
                       <FaRegSun className='hover:text-primary  hover:scale-125 transition-all ease-in' />
                     </button>
+                    <button id={e.name} onClick={() => selectallregistrations(e.id, e.id)}>
+                      <FaRegSun className='hover:text-primary  hover:scale-125 transition-all ease-in' />
+                    </button>
                   </div>
                 </td>
+
 
                 <Modal className='mt-40 lg:mt-0 ' show={openModal === e.id} onClose={() => setOpenModal(undefined)}>
                   <Modal.Header >{e.name}</Modal.Header>
@@ -460,7 +527,103 @@ const TableClientsAdmin = () => {
 
               </tr>
 
+              {openRowIndex === e.id && (
+                <>
+                  <tr className='bg-black-2/80 overflow-auto border-primary/30 border-b w-full'>
+                    <td >
+                      <div className='ps-12 flex w-full justify-start'>
+                        Foto
+                      </div>
+                    </td>
+                    <td>
+                      <div className='flex w-full justify-start'>
+                        <p className='py-6 pl-4'>Nombre</p>
+
+                      </div>
+                    </td>
+                    <td>
+                      <div className='flex w-full justify-start'>
+                        <p className='py-6 pl-4'>Correo electronico</p>
+
+                      </div>
+
+                    </td>
+                    <td>
+                      <div className='flex w-full justify-end'>
+                        <p className='py-6 pl-16 md:pl-4'>Fecha de reservacion</p>
+
+                      </div>
+
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+                      <div className='flex w-full justify-start'>
+                        Eliminar cliente
+                      </div>
+                    </td>
+                  </tr>
+                  {registrations.map(client =>
+                    <>
+
+                      <tr className='bg-black-2/30 overflow-auto border-primary/30 border-b w-full'>
+                        <td >
+                          <div className='ps-3 flex w-full justify-start'>
+                            <img className="w-7 h-7 ms-11 object-cover rounded-full" src={e.image_url} alt="" />
+                          </div>
+                        </td>
+                        <td>
+                          <div className='flex w-full justify-start'>
+                            <p className='py-6 pl-6'>{client.name}</p>
+
+                          </div>
+                        </td>
+                        <td>
+                          <div className='flex w-full justify-start'>
+                            <p className='py-6 pl-4'> {client.email}</p>
+
+                          </div>
+
+                        </td>
+                        <td>
+                          <div className='flex w-full justify-end'>
+                            <p className='py-6 pl-4'> {DateTime.fromISO(client.created_at, { zone: 'utc' }).toFormat('yyyy-MM-dd')}</p>
+
+                          </div>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                          <div className='flex w-full justify-start'>
+                            <button data-id={client.id_user} data-activity={client.id_activity} onClick={e => delectClientRegistrations(e.target.getAttribute('data-id'), e.target.getAttribute('data-activity'))} className='bg-red-600 text-white px-4 py-2 rounded-md text-xs font-bold'>Eliminar reserva</button>
+
+                          </div>
+                        </td>
+                      </tr>
+                    </>
+
+
+                  )}
+
+
+
+                </>
+
+
+              )}
+
             </>
+
+
             )}
           </tbody>
 

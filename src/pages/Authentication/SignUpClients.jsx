@@ -24,7 +24,6 @@ const SignUpClients = () => {
     };
     fetchDataAsync()
 
-
   }, [])
  
   const handlersubmit = async (e) => {
